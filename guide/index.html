@@ -81,7 +81,7 @@
 <p>Technically, Vue.js is focused on the <a href="#ViewModel">ViewModel</a> layer of the MVVM pattern. It connects the <a href="#View">View</a> and the <a href="#Model">Model</a> via two way data bindings. Actual DOM manipulations and output formatting are abstracted away into <a href="#Directives">Directives</a> and <a href="#Filters">Filters</a>.</p>
 <p>Philosophically, the goal is to provide the benefits of MVVM data binding with an API that is as simple as possible. Modularity and composability are also important design considerations. It is not a full-blown framework - it is designed to be simple and flexible. You can use it alone for rapid prototyping, or mix and match with other libraries for a custom front-end stack. It’s also a natural fit for no-backend services such as Firebase.</p>
 <p>Vue.js’ API is heavily influenced by <a href="http://angularjs.org" target="_blank">AngularJS</a>, <a href="http://knockoutjs.com" target="_blank">KnockoutJS</a>, <a href="http://ractivejs.org" target="_blank">Ractive.js</a> and <a href="http://www.rivetsjs.com" target="_blank">Rivets.js</a>. Despite the similarities, I believe Vue.js offers a valuable alternative to these existing libraries by finding a sweetspot between simplicity and functionality.</p>
-<p>If you are confused by some of the terms mentioned above, read on for a brief overview of what they mean. Otherwise, you can jump right to <a href="#A_Quick_Example">the quick example</a>.</p>
+<p>Even if you are already familiar with some of these terms, it is recommended that you go through the following concepts overview because your notion of these terms might be different from what they mean in the Vue.js context.</p>
 <h2 id="Concepts_Overview">Concepts Overview</h2>
 <h3 id="ViewModel">ViewModel</h3>
 <p>An object that syncs the Model and the View. In Vue.js, ViewModels are instantiated with the <code>Vue</code> constructor or its sub-classes:</p>
@@ -118,9 +118,12 @@
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"person-&#123;&#123;id&#125;&#125;"</span>&gt;</span>Hello &#123;&#123;name&#125;&#125;!<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<p class="tip">It is not recommended to use mustache bindings inside the <code>style</code> attribute because Internet Explorer, regardless of version, will remove invalid inline styles when parsing the HTML.</p>
+<p>Although it is convenient, there are a few things you need to be aware of:</p>
+<p class="tip">The <code>src</code> attribute on an <code>&lt;image&gt;</code> element makes an HTTP requests when a value is set, so when the template is first parsed it will result in a 404. In this case <code>v-attr</code> is preferred.</p>
 
-<p class="tip">You can also use triple mustaches for unescaped HTML, which translate  to <code>v-html</code> internally. However, since this can open up window for potential XSS attacks, it is suggested that you only use triple mustaches when you are certain about the security of the data source.</p>
+<p class="tip">Internet Explorer will remove invalid inline <code>style</code> attributes when parsing HTML, so always use <code>v-style</code> when binding inline CSS if you want to support IE.</p>
+
+<p class="tip">You can use triple mustaches &#123;&#123;&#123; like this &#125;&#125;&#125; for unescaped HTML, which translates to <code>v-html</code> internally. However, this can open up windows for potential XSS attacks, therefore it is suggested that you only use triple mustaches when you are absolutely sure that the data source is secure.</p>
 
 <h3 id="Filters">Filters</h3>
 <p>Functions that are used to process the raw values before updating the View. They are denoted by a “pipe” inside directives or bindings:</p>
