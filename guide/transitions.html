@@ -77,14 +77,14 @@
 <div class="content guide with-sidebar">
     <h1>Adding Transition Effects</h1>
     <p>You can add transition effects when elements are inserted into or removed from the DOM using the <code>v-transition</code> directive. There are two types of transitions: CSS-based and JavaScript-based. All Vue.js transitions are triggered only if the DOM manipulation was applied by Vue.js, either through built-in directives, e.g. <code>v-if</code>, or through ViewModel instance methods, e.g. <code>vm.$appendTo()</code>.</p>
-<h2 id="CSS_Transitions">CSS Transitions</h2>
+<h2 id="css-transitions">CSS Transitions</h2>
 <p>To enable CSS transitions on an element, simply give it an empty <code>v-transition</code> directive:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"msg"</span> <span class="attribute">v-if</span>=<span class="value">"show"</span> <span class="attribute">v-transition</span>&gt;</span>Hello!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 <p>You will also need to provide CSS rules for <code>v-enter</code> and <code>v-leave</code> classes (the class names can be configured with <code>Vue.config()</code>):</p>
-<figure class="highlight lang-css"><table><tr><td class="gutter"><pre>1
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -153,11 +153,11 @@
 </ol>
 </li>
 </ul>
-<p class="tip">It is important to ensure that the target element’s CSS transition rules are properly set and it will fire a <code>transitionend</code> event. Otherwise Vue.js will not be able to determine when the transition is finished.</p>
+<p class="tip">It is important to ensure that the target element&#39;s CSS transition rules are properly set and it will fire a <code>transitionend</code> event. Otherwise Vue.js will not be able to determine when the transition is finished.</p>
 
-<h2 id="JavaScript_Transitions">JavaScript Transitions</h2>
+<h2 id="javascript-transitions">JavaScript Transitions</h2>
 <p>Vue.js provides a way to call arbitrary JavaScript functions during element insertion/removal. To do that you first need to register your transition functions:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -176,7 +176,7 @@
 </pre></td></tr></table></figure>
 
 <p>Then you can use it by providing the transition id to <code>v-transition</code>:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">p</span> <span class="attribute">v-transition</span>=<span class="value">"my-transition"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
 </pre></td></tr></table></figure>
 

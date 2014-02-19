@@ -66,13 +66,13 @@
 
 <div class="content api with-sidebar">
     <h1>Global Methods</h1>
-    <h3 id="Vue-extend-28-_options_-29-">Vue.extend( options )</h3>
+    <h3 id="vue-extend-options-">Vue.extend( options )</h3>
 <ul>
 <li><strong>options</strong> <code>Object</code></li>
 </ul>
-<p>Create a subclass of the Vue class. Most <a href="/api/instantiation-options.html">instantiation options</a> can be used here, with the exception of the <code>el</code> option because you can’t create multiple ViewModel instances on the same element. Also see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
+<p>Create a subclass of the Vue class. Most <a href="/api/instantiation-options.html">instantiation options</a> can be used here, with the exception of the <code>el</code> option because you can&#39;t create multiple ViewModel instances on the same element. Also see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
 <p><strong>Example</strong></p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -103,18 +103,18 @@ profile.$appendTo(<span class="string">'body'</span>)
 </pre></td></tr></table></figure>
 
 <p>Will result in:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">p</span>&gt;</span>Walter White aka Heisenberg<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<h3 id="Vue-config-28-_options_-7c-_key-2c-_-5b-value-5d-_-29-">Vue.config( options | key, [value] )</h3>
+<h3 id="vue-config-options-key-value-">Vue.config( options | key, [value] )</h3>
 <ul>
 <li><strong>options</strong> <code>Object</code></li>
 <li><strong>key</strong> <code>String</code></li>
 <li><strong>value</strong> <code>*</code> <em>optional</em></li>
 </ul>
 <p>Configure global settings. This function is overloaded:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -135,7 +135,7 @@ Vue.config({
 </pre></td></tr></table></figure>
 
 <p>Here are the options with their default values:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -161,31 +161,31 @@ Vue.config({
 }
 </pre></td></tr></table></figure>
 
-<h3 id="Vue-directive-28-_id-2c-_-5b-definition-5d-_-29-">Vue.directive( id, [definition] )</h3>
+<h3 id="vue-directive-id-definition-">Vue.directive( id, [definition] )</h3>
 <ul>
 <li><strong>id</strong> <code>String</code></li>
 <li><strong>definition</strong> <code>Function</code> or <code>Object</code> <em>optional</em></li>
 </ul>
 <p>Register or retrieve a global custom directive. For more details see <a href="/guide/directives.html#Writing_a_Custom_Directive">Writing Custom Directives</a>.</p>
-<h3 id="Vue-filter-28-_id-2c-_definition_-29-">Vue.filter( id, definition )</h3>
+<h3 id="vue-filter-id-definition-">Vue.filter( id, definition )</h3>
 <ul>
 <li><strong>id</strong> <code>String</code></li>
 <li><strong>definition</strong> <code>Function</code> <em>optional</em></li>
 </ul>
 <p>Register or retrieve a global custom filter. For more details see <a href="/guide/filters.html#Writing_a_Custom_Filter">Writing Custom Filters</a>.</p>
-<h3 id="Vue-component-28-_id-2c-_definition_-29-">Vue.component( id, definition )</h3>
+<h3 id="vue-component-id-definition-">Vue.component( id, definition )</h3>
 <ul>
 <li><strong>id</strong> <code>String</code></li>
 <li><strong>definition</strong> <code>Function Constructor</code> or <code>Object</code> <em>optional</em></li>
 </ul>
 <p>Register or retrieve a global component. For more details see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
-<h3 id="Vue-transition-28-_id-2c-_definition_-29-">Vue.transition( id, definition )</h3>
+<h3 id="vue-transition-id-definition-">Vue.transition( id, definition )</h3>
 <ul>
 <li><strong>id</strong> <code>String</code></li>
 <li><strong>definition</strong> <code>Object</code> <em>optional</em></li>
 </ul>
 <p>Register or retrieve a global transition definition. For more details see <a href="/guide/transitions.html">Adding Transition Effects</a>.</p>
-<h3 id="Vue-partial-28-_id-2c-_definition_-29-">Vue.partial( id, definition )</h3>
+<h3 id="vue-partial-id-definition-">Vue.partial( id, definition )</h3>
 <ul>
 <li><strong>id</strong> <code>String</code></li>
 <li><strong>definition</strong> <code>String</code> or <code>HTMLElement</code> <em>optional</em></li>
@@ -193,7 +193,7 @@ Vue.config({
 <p>Register or retrieve a global partial. The definition can be a template string, a querySelector that starts with <code>#</code>, or a DOM element (whose innerHTML will be used as the template string.)</p>
 <p><strong>Example</strong></p>
 <p>HTML</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"demo"</span>&gt;</span>
@@ -202,7 +202,7 @@ Vue.config({
 </pre></td></tr></table></figure>
 
 <p>JavaScript</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -221,7 +221,7 @@ Vue.config({
 </pre></td></tr></table></figure>
 
 <p>Will result in:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"demo"</span>&gt;</span>
@@ -229,17 +229,17 @@ Vue.config({
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<h3 id="Vue-nextTick-28-_callback_-29-">Vue.nextTick( callback )</h3>
+<h3 id="vue-nexttick-callback-">Vue.nextTick( callback )</h3>
 <ul>
 <li><strong>callback</strong> <code>Function</code></li>
 </ul>
 <p>Vue.js batches view updates and execute them all asynchronously. It uses <code>requestAnimationFrame</code> if available and fallsback to <code>setTimeout(fn, 0)</code>. This method calls the callback after the next view update, which can be useful when you want to wait until the view has been updated.</p>
-<h3 id="Vue-require-28-_module_-29-">Vue.require( module )</h3>
+<h3 id="vue-require-module-">Vue.require( module )</h3>
 <ul>
 <li><strong>module</strong> <code>String</code></li>
 </ul>
-<p>Get access to Vue.js’ internal modules. This is intended for plugin authors only.</p>
-<h3 id="Vue-use-28-_plguin_-29-">Vue.use( plguin )</h3>
+<p>Get access to Vue.js&#39; internal modules. This is intended for plugin authors only.</p>
+<h3 id="vue-use-plguin-">Vue.use( plguin )</h3>
 <ul>
 <li><strong>plugin</strong> <code>Object</code> or <code>Function</code></li>
 </ul>

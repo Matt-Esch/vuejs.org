@@ -66,82 +66,82 @@
 
 <div class="content api with-sidebar">
     <h1>Instance Methods</h1>
-    <h2 id="Data_Changes">Data Changes</h2>
-<h3 id="vm-24-watch-28-_keypath-2c-_callback_-29-">vm.$watch( keypath, callback )</h3>
+    <h2 id="data-changes">Data Changes</h2>
+<h3 id="vm-watch-keypath-callback-">vm.$watch( keypath, callback )</h3>
 <ul>
 <li><strong>keypath</strong> <code>String</code></li>
 <li><strong>callback( newValue )</strong> <code>Function</code></li>
 </ul>
-<p>Watch a keypath on the vm’s data object for changes and call the callback with the new value.</p>
-<h3 id="vm-24-unwatch-28-_keypath-2c-_-5b-callback-5d-_-29-">vm.$unwatch( keypath, [callback] )</h3>
+<p>Watch a keypath on the vm&#39;s data object for changes and call the callback with the new value.</p>
+<h3 id="vm-unwatch-keypath-callback-">vm.$unwatch( keypath, [callback] )</h3>
 <ul>
 <li><strong>keypath</strong> <code>String</code></li>
 <li><strong>callback</strong> <code>Function</code> <em>optional</em></li>
 </ul>
 <p>Stop watching the given keypath. If a callback is given only that callback gets unwatched.</p>
-<h2 id="Cross-ViewModel_Events">Cross-ViewModel Events</h2>
+<h2 id="cross-viewmodel-events">Cross-ViewModel Events</h2>
 <blockquote>
 <p>Each vm is also an event emitter. When you have multiple nested ViewModels, you can use the event system to communicate between them.</p>
 </blockquote>
-<h3 id="vm-24-dispatch-28-_event-2c-_-5b-args-2026-5d-_-29-">vm.$dispatch( event, [args…] )</h3>
+<h3 id="vm-dispatch-event-args-">vm.$dispatch( event, [args...] )</h3>
 <ul>
 <li><strong>event</strong> <code>String</code></li>
-<li><strong>args…</strong> <em>optional</em></li>
+<li><strong>args...</strong> <em>optional</em></li>
 </ul>
 <p>Dispatch an event from the current vm that propagates all the way up to its <code>$root</code>.</p>
-<h3 id="vm-24-broadcast-28-_event-2c-_-5b-args-2026-5d-_-29-">vm.$broadcast( event, [args…] )</h3>
+<h3 id="vm-broadcast-event-args-">vm.$broadcast( event, [args...] )</h3>
 <ul>
 <li><strong>event</strong> <code>String</code></li>
-<li><strong>args…</strong> <em>optional</em></li>
+<li><strong>args...</strong> <em>optional</em></li>
 </ul>
 <p>Emit an event to all children vms of the current vm, which gets further broadcasted to their children all the way down.</p>
-<h3 id="vm-24-emit-28-_event-2c-_-5b-args-2026-5d-_-29-">vm.$emit( event, [args…] )</h3>
+<h3 id="vm-emit-event-args-">vm.$emit( event, [args...] )</h3>
 <ul>
 <li><strong>event</strong> <code>String</code></li>
-<li><strong>args…</strong> <em>optional</em></li>
+<li><strong>args...</strong> <em>optional</em></li>
 </ul>
 <p>Trigger an event on this vm only.</p>
-<h3 id="vm-24-on-28-_event-2c-_callback_-29-">vm.$on( event, callback )</h3>
+<h3 id="vm-on-event-callback-">vm.$on( event, callback )</h3>
 <ul>
 <li><strong>event</strong> <code>String</code></li>
 <li><strong>callback</strong> <code>Function</code></li>
 </ul>
 <p>Listen for an event on the current vm.</p>
-<h3 id="vm-24-once-28-_event-2c-_callback_-29-">vm.$once( event, callback )</h3>
+<h3 id="vm-once-event-callback-">vm.$once( event, callback )</h3>
 <ul>
 <li><strong>event</strong> <code>String</code></li>
 <li><strong>callback</strong> <code>Function</code></li>
 </ul>
 <p>Attach a one-time only listener for an event.</p>
-<h3 id="vm-24-off-28-_-5b-event-2c-_callback-5d-_-29-">vm.$off( [event, callback] )</h3>
+<h3 id="vm-off-event-callback-">vm.$off( [event, callback] )</h3>
 <ul>
 <li><strong>event</strong> <code>String</code> <em>optional</em></li>
 <li><strong>callback</strong> <code>Function</code> <em>optional</em></li>
 </ul>
 <p>If no arguments are given, stop listening for all events; If only the event is given, remove all callbacks for that event; If both event and callback are given, remove that specific callback only.</p>
-<h2 id="DOM_Manipulation">DOM Manipulation</h2>
+<h2 id="dom-manipulation">DOM Manipulation</h2>
 <blockquote>
-<p>All vm DOM manipulation methods work like their jQuery counterparts - except they also trigger vue.js transitions if there are any declared on vm’s <code>$el</code>. For more details on transitions see <a href="/guide/transitions.html">Adding Transition Effects</a>.</p>
+<p>All vm DOM manipulation methods work like their jQuery counterparts - except they also trigger vue.js transitions if there are any declared on vm&#39;s <code>$el</code>. For more details on transitions see <a href="/guide/transitions.html">Adding Transition Effects</a>.</p>
 </blockquote>
-<h3 id="vm-24-appendTo-28-_element_-7c-_selector_-29-">vm.$appendTo( element | selector )</h3>
+<h3 id="vm-appendto-element-selector-">vm.$appendTo( element | selector )</h3>
 <ul>
 <li><strong>element</strong> <code>HTMLElement</code> | <strong>selector</strong> <code>String</code></li>
 </ul>
-<p>Append the vm’s <code>$el</code> to target element. The argument can be either an element or a querySelector string.</p>
-<h3 id="vm-24-before-28-_element_-7c-_selector_-29-">vm.$before( element | selector )</h3>
+<p>Append the vm&#39;s <code>$el</code> to target element. The argument can be either an element or a querySelector string.</p>
+<h3 id="vm-before-element-selector-">vm.$before( element | selector )</h3>
 <ul>
 <li><strong>element</strong> <code>HTMLElement</code> | <strong>selector</strong> <code>String</code></li>
 </ul>
-<p>Insert the vm’s <code>$el</code> before target element.</p>
-<h3 id="vm-24-after-28-_element_-7c-_selector_-29-">vm.$after( element | selector )</h3>
+<p>Insert the vm&#39;s <code>$el</code> before target element.</p>
+<h3 id="vm-after-element-selector-">vm.$after( element | selector )</h3>
 <ul>
 <li><strong>element</strong> <code>HTMLElement</code> | <strong>selector</strong> <code>String</code></li>
 </ul>
-<p>Insert the vm’s <code>$el</code> after target element.</p>
-<h3 id="vm-24-remove-28-29-">vm.$remove()</h3>
-<p>Remove the vm’s <code>$el</code> from the DOM.</p>
-<h2 id="Misc">Misc</h2>
-<h3 id="vm-24-destroy-28-29-">vm.$destroy()</h3>
+<p>Insert the vm&#39;s <code>$el</code> after target element.</p>
+<h3 id="vm-remove-">vm.$remove()</h3>
+<p>Remove the vm&#39;s <code>$el</code> from the DOM.</p>
+<h2 id="misc">Misc</h2>
+<h3 id="vm-destroy-">vm.$destroy()</h3>
 <p>Completely destroy a vm. Clean up its connections with other existing vms, unbind all its directives and remove its <code>$el</code> from the DOM.</p>
 
 </div>

@@ -76,45 +76,45 @@
 
 <div class="content guide with-sidebar">
     <h1>Getting Started</h1>
-    <h2 id="Introduction">Introduction</h2>
+    <h2 id="introduction">Introduction</h2>
 <p>Vue.js is a library for building interactive web interfaces.</p>
 <p>Technically, Vue.js is focused on the <a href="#ViewModel">ViewModel</a> layer of the MVVM pattern. It connects the <a href="#View">View</a> and the <a href="#Model">Model</a> via two way data bindings. Actual DOM manipulations and output formatting are abstracted away into <a href="#Directives">Directives</a> and <a href="#Filters">Filters</a>.</p>
-<p>Philosophically, the goal is to provide the benefits of MVVM data binding with an API that is as simple as possible. Modularity and composability are also important design considerations. It is not a full-blown framework - it is designed to be simple and flexible. You can use it alone for rapid prototyping, or mix and match with other libraries for a custom front-end stack. It’s also a natural fit for no-backend services such as Firebase.</p>
-<p>Vue.js’ API is heavily influenced by <a href="http://angularjs.org" target="_blank">AngularJS</a>, <a href="http://knockoutjs.com" target="_blank">KnockoutJS</a>, <a href="http://ractivejs.org" target="_blank">Ractive.js</a> and <a href="http://www.rivetsjs.com" target="_blank">Rivets.js</a>. Despite the similarities, I believe Vue.js offers a valuable alternative to these existing libraries by finding a sweetspot between simplicity and functionality.</p>
+<p>Philosophically, the goal is to provide the benefits of MVVM data binding with an API that is as simple as possible. Modularity and composability are also important design considerations. It is not a full-blown framework - it is designed to be simple and flexible. You can use it alone for rapid prototyping, or mix and match with other libraries for a custom front-end stack. It&#39;s also a natural fit for no-backend services such as Firebase.</p>
+<p>Vue.js&#39; API is heavily influenced by <a href="http://angularjs.org" target="_blank">AngularJS</a>, <a href="http://knockoutjs.com" target="_blank">KnockoutJS</a>, <a href="http://ractivejs.org" target="_blank">Ractive.js</a> and <a href="http://www.rivetsjs.com" target="_blank">Rivets.js</a>. Despite the similarities, I believe Vue.js offers a valuable alternative to these existing libraries by finding a sweetspot between simplicity and functionality.</p>
 <p>Even if you are already familiar with some of these terms, it is recommended that you go through the following concepts overview because your notion of these terms might be different from what they mean in the Vue.js context.</p>
-<h2 id="Concepts_Overview">Concepts Overview</h2>
-<h3 id="ViewModel">ViewModel</h3>
+<h2 id="concepts-overview">Concepts Overview</h2>
+<h3 id="viewmodel">ViewModel</h3>
 <p>An object that syncs the Model and the View. In Vue.js, ViewModels are instantiated with the <code>Vue</code> constructor or its sub-classes:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(options)
 </pre></td></tr></table></figure>
 
 <p>This is the primary object that you will be interacting with as a developer when using Vue.js. For more details see <a href="/api/">Class: Vue</a>.</p>
-<h3 id="View">View</h3>
+<h3 id="view">View</h3>
 <p>The actual HTML/DOM that the user sees.</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre>vm.$el <span class="comment">// The View</span>
 </pre></td></tr></table></figure>
 
 <p>When using Vue.js, you rarely have to touch the DOM yourself except in custom directives (explained later). View updates will be automatically triggered when the data changes. These view updates are highly granular with the precision down to a textNode. They are also batched and executed asynchronously for greater performance.</p>
-<h3 id="Model">Model</h3>
+<h3 id="model">Model</h3>
 <p>A slightly modified plain JavaScript object.</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre>vm.$data <span class="comment">// The Model</span>
 </pre></td></tr></table></figure>
 
 <p>In Vue.js, models are simply plain JavaScript objects, or <strong>data objects</strong>. You can manipulate their properties and ViewModels that are observing them will be notified of the changes. Vue.js converts the properties on data objects into ES5 getter/setters, which allows direct manipulation without the need for dirty checking. For technical details see <a href="/api/instantiation-options.html#data">Instantiation Options: data</a>.</p>
-<h3 id="Directives">Directives</h3>
+<h3 id="directives">Directives</h3>
 <p>Prefixed HTML attributes that tell Vue.js to do something about a DOM element.</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-text</span>=<span class="value">"message"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<p>Here the div element has a <code>v-text</code> directive with the value <code>message</code>. What it does is telling Vue.js to keep the div’s textContent in sync with the ViewModel’s <code>message</code> property.</p>
-<p>Directives can encapsulate arbitrary DOM manipulations. For example <code>v-attr</code> manipulates an element’s attributes, <code>v-repeat</code> clones an element based on an Array, <code>v-on</code> attaches event listeners… we will cover them later.</p>
-<h3 id="Mustache_Bindings">Mustache Bindings</h3>
+<p>Here the div element has a <code>v-text</code> directive with the value <code>message</code>. What it does is telling Vue.js to keep the div&#39;s textContent in sync with the ViewModel&#39;s <code>message</code> property.</p>
+<p>Directives can encapsulate arbitrary DOM manipulations. For example <code>v-attr</code> manipulates an element&#39;s attributes, <code>v-repeat</code> clones an element based on an Array, <code>v-on</code> attaches event listeners... we will cover them later.</p>
+<h3 id="mustache-bindings">Mustache Bindings</h3>
 <p>You can also use mustache-style bindings, both in text and in attributes. They are translated into <code>v-text</code> and <code>v-attr</code> directives under the hood. For example:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"person-&#123;&#123;id&#125;&#125;"</span>&gt;</span>Hello &#123;&#123;name&#125;&#125;!<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
@@ -123,17 +123,19 @@
 
 <p class="tip">Internet Explorer will remove invalid inline <code>style</code> attributes when parsing HTML, so always use <code>v-style</code> when binding inline CSS if you want to support IE.</p>
 
-<p class="tip">You can use triple mustaches &#123;&#123;&#123; like this &#125;&#125;&#125; for unescaped HTML, which translates to <code>v-html</code> internally. However, this can open up windows for potential XSS attacks, therefore it is suggested that you only use triple mustaches when you are absolutely sure that the data source is secure.</p>
+<p class="tip">You can use triple mustaches &#123;&#123;&#123; like this &#125;&#125;&#125; for unescaped HTML, which translates to <code>v-html</code> internally. However, this can open up windows for potential XSS attacks, therefore it is suggested that you only use triple mustaches when you are absolutely sure about the security of the data source, or pipe it through a custom filter that sanitizes untrusted HTML.</p>
 
-<h3 id="Filters">Filters</h3>
-<p>Functions that are used to process the raw values before updating the View. They are denoted by a “pipe” inside directives or bindings:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<h3 id="filters">Filters</h3>
+<p>Functions that are used to process the raw values before updating the View. They are denoted by a &quot;pipe&quot; inside directives or bindings:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span>&gt;</span>&#123;&#123;message | capitalize&#125;&#125;<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<p>Now before the div’s textContent is updated, the <code>message</code> value will first be passed through the <code>capitalize</code> function. For more details see <a href="/guide/filters.html">Filters in Depth</a>.</p>
-<h2 id="A_Quick_Example">A Quick Example</h2>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<p>Now before the div&#39;s textContent is updated, the <code>message</code> value will first be passed through the <code>capitalize</code> function. For more details see <a href="/guide/filters.html">Filters in Depth</a>.</p>
+<h3 id="components">Components</h3>
+<p>In Vue.js, a component is simply a ViewModel constructor registered with an ID using <code>Vue.component(ID, constructor)</code>. By having an associated ID, they can be declaratively reused in other ViewModel&#39;s templates with the <code>v-component</code> directive. By breaking an application into smaller components, the result is a highly decoupled and composable codebase. For more details, see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
+<h2 id="a-quick-example">A Quick Example</h2>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -159,7 +161,7 @@
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -214,8 +216,9 @@ var demo = new Vue({
 })
 </script>
 
-<p>You can click on a todo to toggle it, or you can open your Browser’s console and play with the <code>demo</code> object - for example, change <code>demo.title</code>, push a new object into <code>demo.todos</code>, or toggle a todo’s <code>done</code> state.</p>
-<p>You probably have a few questions in mind now - don’t worry, we’ll cover them soon. Next up: <a href="/guide/directives.html">Directives in Depth</a>.</p>
+<p>Also available on <a href="http://jsfiddle.net/yyx990803/yMv7y/" target="_blank">jsfiddle</a>.</p>
+<p>You can click on a todo to toggle it, or you can open your Browser&#39;s console and play with the <code>demo</code> object - for example, change <code>demo.title</code>, push a new object into <code>demo.todos</code>, or toggle a todo&#39;s <code>done</code> state.</p>
+<p>You probably have a few questions in mind now - don&#39;t worry, we&#39;ll cover them soon. Next up: <a href="/guide/directives.html">Directives in Depth</a>.</p>
 
 </div>
         

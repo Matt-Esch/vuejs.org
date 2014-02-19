@@ -78,7 +78,7 @@
     <h1>Handling Forms</h1>
     <p>You can use the <code>v-model</code> directive to create two-way data bindings on form input elements and elements with <code>contenteditable</code> attribute. It automatically picks the correct way to update the element based on the input type.</p>
 <p><strong>Example</strong></p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -94,14 +94,32 @@
 14
 15
 16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">form</span> <span class="attribute">id</span>=<span class="value">"demo"</span>&gt;</span>
+    <span class="comment">&lt;!-- text --&gt;</span>
     <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">v-model</span>=<span class="value">"msg"</span>&gt;</span> {&#123;msg&#125;}<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="comment">&lt;!-- checkbox --&gt;</span>
     <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"checkbox"</span> <span class="attribute">v-model</span>=<span class="value">"checked"</span>&gt;</span> {&#123;checked ? &quot;yes&quot; : &quot;no&quot;&#125;}<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="comment">&lt;!-- radio buttons --&gt;</span>
     <span class="tag">&lt;<span class="title">p</span>&gt;</span>
         <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"radio"</span> <span class="attribute">name</span>=<span class="value">"picked"</span> <span class="attribute">value</span>=<span class="value">"one"</span> <span class="attribute">v-model</span>=<span class="value">"picked"</span>&gt;</span>
         <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"radio"</span> <span class="attribute">name</span>=<span class="value">"picked"</span> <span class="attribute">value</span>=<span class="value">"two"</span> <span class="attribute">v-model</span>=<span class="value">"picked"</span>&gt;</span>
         {&#123;picked&#125;}
     <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="comment">&lt;!-- select --&gt;</span>
     <span class="tag">&lt;<span class="title">p</span>&gt;</span>
         <span class="tag">&lt;<span class="title">select</span> <span class="attribute">v-model</span>=<span class="value">"selected"</span>&gt;</span>
             <span class="tag">&lt;<span class="title">option</span>&gt;</span>one<span class="tag">&lt;/<span class="title">option</span>&gt;</span>
@@ -109,10 +127,20 @@
         <span class="tag">&lt;/<span class="title">select</span>&gt;</span>
         {&#123;selected&#125;}
     <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="comment">&lt;!-- multiple select --&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">select</span> <span class="attribute">v-model</span>=<span class="value">"multiSelect"</span> <span class="attribute">multiple</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">option</span>&gt;</span>one<span class="tag">&lt;/<span class="title">option</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">option</span>&gt;</span>two<span class="tag">&lt;/<span class="title">option</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">option</span>&gt;</span>three<span class="tag">&lt;/<span class="title">option</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">select</span>&gt;</span>
+        {&#123;multiSelect&#125;}
+    <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>data: {&#123;$data&#125;}<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">form</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -121,34 +149,32 @@
 7
 8
 9
+10
 </pre></td><td class="code"><pre><span class="keyword">new</span> Vue({
     el: <span class="string">'#demo'</span>,
     data: {
         msg      : <span class="string">'hi!'</span>,
         checked  : <span class="literal">true</span>,
         picked   : <span class="string">'one'</span>,
-        selected : <span class="string">'two'</span>
+        selected : <span class="string">'two'</span>,
+        multiSelect: [<span class="string">'one'</span>, <span class="string">'three'</span>]
     }
 })
 </pre></td></tr></table></figure>
 
 <p><strong>Result</strong></p>
-<p><form id="demo"><p><input type="text" v-model="msg"> {&#123;msg&#125;}</p><p><input type="checkbox" v-model="checked"> {&#123;checked ? &quot;yes&quot; : &quot;no&quot;&#125;}</p><p><input type="radio" v-model="picked" name="picked" value="one"><input type="radio" v-model="picked" name="picked" value="two"> {&#123;picked&#125;}</p><p><select v-model="selected"><option>one</option><option>two</option></select> {&#123;selected&#125;}</p><p>data: {&#123;serialized&#125;}</p></form></p>
+<p><form id="demo"><p><input type="text" v-model="msg"> {&#123;msg&#125;}</p><p><input type="checkbox" v-model="checked"> {&#123;checked ? &quot;yes&quot; : &quot;no&quot;&#125;}</p><p><input type="radio" v-model="picked" name="picked" value="one"><input type="radio" v-model="picked" name="picked" value="two"> {&#123;picked&#125;}</p><p><select v-model="selected"><option>one</option><option>two</option></select> {&#123;selected&#125;}</p><p><select v-model="multiSelect" multiple><option>one</option><option>two</option><option>three</option></select>{&#123;multiSelect&#125;}</p><p>data: {&#123;$data&#125;}</p></form></p>
 <script>
-    new Vue({
-        el: '#demo',
-        data: {
-            msg: 'hi!',
-            checked: true,
-            picked: 'one',
-            selected: 'two'
-        },
-        computed: {
-            serialized: {$get: function () {
-                return JSON.stringify(this.$data)
-            }}
-        }
-    })
+new Vue({
+    el: '#demo',
+    data: {
+        msg      : 'hi!',
+        checked  : true,
+        picked   : 'one',
+        selected : 'two',
+        multiSelect: ['one', 'three']
+    }
+})
 </script>
 
 <p>Next: <a href="/guide/computed.html">Computed Properties</a>.</p>

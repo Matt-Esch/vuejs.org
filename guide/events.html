@@ -77,7 +77,7 @@
 <div class="content guide with-sidebar">
     <h1>Listening for Events</h1>
     <p>You can use the <code>v-on</code> directive to bind event listeners to DOM events. It can be bound to either an event handler function (without the invocation parentheses) or an inline expression. If a handler function is provided, it will get the original DOM event as the argument. The event also comes with an extra property: <code>targetVM</code>, pointing to the particular ViewModel the event was triggered on:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -87,7 +87,7 @@
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -113,9 +113,9 @@
 })
 </pre></td></tr></table></figure>
 
-<h2 id="Invoke_Handler_with_Expression">Invoke Handler with Expression</h2>
+<h2 id="invoke-handler-with-expression">Invoke Handler with Expression</h2>
 <p><code>targetVM</code> could be useful when <code>v-on</code> is used with <code>v-repeat</code>, since the latter creates a lot of child ViewModels. However, it is often more convenient to use an invocation expression passing in <code>this</code>, which equals the current context ViewModel:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"list"</span>&gt;</span>
@@ -123,7 +123,7 @@
 <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -153,7 +153,7 @@
 })
 </pre></td></tr></table></figure>
 
-<h2 id="The_Special_-3c-code-3e-key-3c-2f-code-3e-_Filter">The Special <code>key</code> Filter</h2>
+<h2 id="the-special-key-filter">The Special <code>key</code> Filter</h2>
 <p>When listening for keyboard events, we often need to check for common key codes. Vue.js provides a special <code>key</code> filter that can only be used with <code>v-on</code> directives. It takes a single argument that denotes the key code to check for:</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -169,11 +169,11 @@
 </pre></td></tr></table></figure>
 
 <p>Check the API reference for a <a href="/api/filters.html#key">full list of key filter presets</a>.</p>
-<h2 id="Why_Listeners_in_HTML-3f-">Why Listeners in HTML?</h2>
-<p>You might be concerned about this whole event listening approach violates the good old rules about “separation of concern”. Rest assured - since all Vue.js handler functions and expressions are strictly bound to the ViewModel that’s handling the current View, it won’t cause any maintainance difficulty. In fact, there are several benefits in using <code>v-on</code>:</p>
+<h2 id="why-listeners-in-html-">Why Listeners in HTML?</h2>
+<p>You might be concerned about this whole event listening approach violates the good old rules about &quot;separation of concern&quot;. Rest assured - since all Vue.js handler functions and expressions are strictly bound to the ViewModel that&#39;s handling the current View, it won&#39;t cause any maintainance difficulty. In fact, there are several benefits in using <code>v-on</code>:</p>
 <ol>
 <li>It makes it easier to locate the handler function implementations within your JS code by simply skimming the HTML template.</li>
-<li>Since you don’t have to manually attach event listeners in JS, your ViewModel code can be pure logic and DOM-free. This makes it easier to test.</li>
+<li>Since you don&#39;t have to manually attach event listeners in JS, your ViewModel code can be pure logic and DOM-free. This makes it easier to test.</li>
 <li>When a ViewModel is destroyed, all event listeners are automatically removed.</li>
 <li>When <code>v-on</code> is used in conjunction with <code>v-repeat</code>, Vue.js will automatically use event delegation instead of attaching a listner on every repeated instance.</li>
 </ol>

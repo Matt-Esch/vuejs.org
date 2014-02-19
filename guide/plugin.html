@@ -79,25 +79,25 @@
     <blockquote>
 <p><em>This is a very early preview for the plugin API and this may change in furture versions. You might want to wait for a few official plugins as reference before writing your own.</em></p>
 </blockquote>
-<h2 id="Using_a_Plugin">Using a Plugin</h2>
-<h3 id="Verbose_version">Verbose version</h3>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<h2 id="using-a-plugin">Using a Plugin</h2>
+<h3 id="verbose-version">Verbose version</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="comment">// assuming using a CommonJS build system</span>
-<span class="keyword">var</span> vueTouch = require(<span class="string">'vue-touch'</span>)
+<span class="keyword">var</span> vueTouch = <span class="built_in">require</span>(<span class="string">'vue-touch'</span>)
 Vue.use(vueTouch)
 </pre></td></tr></table></figure>
 
-<h3 id="Shorthand_equivalent">Shorthand equivalent</h3>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<h3 id="shorthand-equivalent">Shorthand equivalent</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="comment">// will auto require('vue-touch')</span>
 Vue.use(<span class="string">'vue-touch'</span>)
 </pre></td></tr></table></figure>
 
-<h2 id="Plugin_Implementation">Plugin Implementation</h2>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<h2 id="plugin-implementation">Plugin Implementation</h2>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4

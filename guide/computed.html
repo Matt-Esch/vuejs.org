@@ -76,9 +76,9 @@
 
 <div class="content guide with-sidebar">
     <h1>Computed Properties</h1>
-    <p>Vue.js’ inline expressions are very convenient, but the best use cases for them are simple boolean operations or string concatenations. For more complicated logic, you should use <strong>computed properties</strong>.</p>
+    <p>Vue.js&#39; inline expressions are very convenient, but the best use cases for them are simple boolean operations or string concatenations. For more complicated logic, you should use <strong>computed properties</strong>.</p>
 <p>In Vue.js, you define computed properties with the <code>computed</code> option:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -123,7 +123,7 @@ demo.fullName <span class="comment">// 'Foo Bar'</span>
 </pre></td></tr></table></figure>
 
 <p>When you only need the getter, you can provide a single function instead of an object:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -140,9 +140,9 @@ computed: {
 </pre></td></tr></table></figure>
 
 <p>A computed property is essentially a property defined with getter/setter functions. You can use a computed property just like a normal property, but when you access it, you get the value returned by the getter function; when you change its value, you trigger the setter function passing in the new value as its argument.</p>
-<h2 id="Dependency_Collection_Gotcha">Dependency Collection Gotcha</h2>
-<p>Like inline expressions, Vue.js automatically collects dependencies for computed properties and refreshes them when their dependencies change. There’s one thing to keep in mind though: since Vue.js collects dependencies by monitoring which properties are accessed inside a getter, you need to be careful when there is conditional logic within your getters. Consider this example:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<h2 id="dependency-collection-gotcha">Dependency Collection Gotcha</h2>
+<p>Like inline expressions, Vue.js automatically collects dependencies for computed properties and refreshes them when their dependencies change. There&#39;s one thing to keep in mind though: since Vue.js collects dependencies by monitoring which properties are accessed inside a getter, you need to be careful when there is conditional logic within your getters. Consider this example:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -159,7 +159,7 @@ status: <span class="function"><span class="keyword">function</span> <span class
 </pre></td></tr></table></figure>
 
 <p>If <code>validated</code> is true in the beginning, then <code>errMsg</code> will not be accessed and therefore not collected as a dependency. Vice-versa for <code>okMsg</code>. To get around this you can simply manually access potentially unreachable properties in your getter:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -181,7 +181,7 @@ status: <span class="function"><span class="keyword">function</span> <span class
 <span class="comment">// ...</span>
 </pre></td></tr></table></figure>
 
-<p class="tip">You don’t need to worry about this in inline expressions because Vue.js’ expression parser takes care of it for you.</p>
+<p class="tip">You don&#39;t need to worry about this in inline expressions because Vue.js&#39; expression parser takes care of it for you.</p>
 
 <p>Next: <a href="/guide/transitions.html">Adding Transition Effects</a></p>
 

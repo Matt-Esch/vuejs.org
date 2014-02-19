@@ -169,22 +169,27 @@ describe('UNIT: Directives', function () {
 
     describe('class', function () {
 
+        function contains (el, cls) {
+            var cur = ' ' + el.className + ' '
+            return cur.indexOf(' ' + cls + ' ') > -1
+        }
+
         it('should set class to the value if it has no arg', function () {
             var dir = mockDirective('class')
             dir.update('test')
-            assert.ok(dir.el.classList.contains('test'))
+            assert.ok(contains(dir.el, 'test'))
             dir.update('hoho')
-            assert.ok(!dir.el.classList.contains('test'))
-            assert.ok(dir.el.classList.contains('hoho'))
+            assert.ok(!contains(dir.el, 'test'))
+            assert.ok(contains(dir.el, 'hoho'))
         })
 
         it('should add/remove class based on truthy/falsy if it has an arg', function () {
             var dir = mockDirective('class')
             dir.arg = 'test'
             dir.update(true)
-            assert.ok(dir.el.classList.contains('test'))
+            assert.ok(contains(dir.el, 'test'))
             dir.update(false)
-            assert.ok(!dir.el.classList.contains('test'))
+            assert.ok(!contains(dir.el, 'test'))
         })
 
     })
@@ -605,7 +610,7 @@ describe('UNIT: Directives', function () {
 
     })
 
-    describe('component-id', function () {
+    describe('ref', function () {
         
         it('should register a VM isntance on its parent\'s $', function () {
             var called = false
@@ -617,7 +622,7 @@ describe('UNIT: Directives', function () {
                 }
             })
             var t = new Vue({
-                template: '<div v-component="child" v-component-id="hihi"></div>',
+                template: '<div v-component="child" v-ref="hihi"></div>',
                 components: {
                     child: Child
                 }

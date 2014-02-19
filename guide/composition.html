@@ -76,9 +76,9 @@
 
 <div class="content guide with-sidebar">
     <h1>Composing ViewModels</h1>
-    <h2 id="Registering_a_Component">Registering a Component</h2>
+    <h2 id="registering-a-component">Registering a Component</h2>
 <p>Vue.js allows you to treat registered ViewModel constructors as reusable components. To register a component, use the global <code>Vue.component()</code> method:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -89,7 +89,7 @@ Vue.component(<span class="string">'my-component'</span>, MyComponent)
 </pre></td></tr></table></figure>
 
 <p>To make things easier, you can also directly pass in the option object instead of an actual constructor:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre>Vue.component(<span class="string">'my-component'</span>, {
@@ -97,19 +97,19 @@ Vue.component(<span class="string">'my-component'</span>, MyComponent)
 })
 </pre></td></tr></table></figure>
 
-<p>Then you can use it in a parent ViewModel’s template:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<p>Then you can use it in a parent ViewModel&#39;s template:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 <p>If you prefer, all registered components can also be used in the form of a custom element tag:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">my-component</span>&gt;</span><span class="tag">&lt;/<span class="title">my-component</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<h2 id="Encapsulating_Private_Assets">Encapsulating Private Assets</h2>
+<h2 id="encapsulating-private-assets">Encapsulating Private Assets</h2>
 <p>Sometimes a component needs to use assets such as directives, filters and its own child components, but might want to keep these assets encapsulated so the component itself can be reused elsewhere. You can do that using the private assets instantiation options. Private assets will only be accessible by the instances of the owner component and its child components.</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -153,10 +153,10 @@ Vue.component(<span class="string">'my-component'</span>, MyComponent)
 })
 </pre></td></tr></table></figure>
 
-<h2 id="Data_Inheritance">Data Inheritance</h2>
-<h3 id="Inheriting_Objects_with_-3c-code-3e-v-with-3c-2f-code-3e-">Inheriting Objects with <code>v-with</code></h3>
-<p>A child component can inherit Objects in its parent’s data by combining <code>v-component</code> with <code>v-with</code>:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<h2 id="data-inheritance">Data Inheritance</h2>
+<h3 id="inheriting-objects-with-v-with-">Inheriting Objects with <code>v-with</code></h3>
+<p>A child component can inherit Objects in its parent&#39;s data by combining <code>v-component</code> with <code>v-with</code>:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"demo-1"</span>&gt;</span>
@@ -164,7 +164,7 @@ Vue.component(<span class="string">'my-component'</span>, MyComponent)
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -213,9 +213,9 @@ Vue.component(<span class="string">'user-profile'</span>, {
     })
 </script>
 
-<h3 id="Inheriting_Array_Elements_with_-3c-code-3e-v-repeat-3c-2f-code-3e-">Inheriting Array Elements with <code>v-repeat</code></h3>
+<h3 id="inheriting-array-elements-with-v-repeat-">Inheriting Array Elements with <code>v-repeat</code></h3>
 <p>For an Array of Objects, you can combine <code>v-component</code> with <code>v-repeat</code>. In this case, for each Object in the Array, a child ViewModel will be created using that Object as data, and the specified component as the constructor.</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -225,7 +225,7 @@ Vue.component(<span class="string">'user-profile'</span>, {
 <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -277,17 +277,17 @@ var parent2 = new Vue({
 })
 </script>
 
-<h2 id="Accessing_Child_Components">Accessing Child Components</h2>
-<p>Sometimes you might need to access nested child components in JavaScript. To enable that you have to assign a child component an ID using <code>v-component-id</code>. For example:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<h2 id="accessing-child-components">Accessing Child Components</h2>
+<p>Sometimes you might need to access nested child components in JavaScript. To enable that you have to assign a reference ID to the child component using <code>v-ref</code>. For example:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"parent"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"user-profile"</span> <span class="attribute">v-component-id</span>=<span class="value">"profile"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"user-profile"</span> <span class="attribute">v-ref</span>=<span class="value">"profile"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="keyword">var</span> parent = <span class="keyword">new</span> Vue({ el: <span class="string">'#parent'</span> })
@@ -295,10 +295,10 @@ var parent2 = new Vue({
 <span class="keyword">var</span> child = parent.$.profile
 </pre></td></tr></table></figure>
 
-<p>When <code>v-component-id</code> is used together with <code>v-repeat</code>, the value you get will be an Array containing the child components mirroring the data Array.</p>
-<h2 id="Event_Communication_Between_Nested_Components">Event Communication Between Nested Components</h2>
-<p>Although you can directly access a ViewModels children and parent, it is more convenient to use the built-in event system for cross-component communication. It also makes your code less coupled and easier to maintain. Once a parent-child relationship is established, you can dispatch and trigger events using each ViewModel’s <a href="/api/instance-methods.html#Cross-ViewModel_Events">event instance methods</a>.</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<p>When <code>v-ref</code> is used together with <code>v-repeat</code>, the value you get will be an Array containing the child components mirroring the data Array.</p>
+<h2 id="event-communication-between-nested-components">Event Communication Between Nested Components</h2>
+<p>Although you can directly access a ViewModels children and parent, it is more convenient to use the built-in event system for cross-component communication. It also makes your code less coupled and easier to maintain. Once a parent-child relationship is established, you can dispatch and trigger events using each ViewModel&#39;s <a href="/api/instance-methods.html#Cross-ViewModel_Events">event instance methods</a>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4

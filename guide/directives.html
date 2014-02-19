@@ -76,20 +76,20 @@
 
 <div class="content guide with-sidebar">
     <h1>Directives In Depth</h1>
-    <h2 id="Synopsis">Synopsis</h2>
-<p>If you have not used AngularJS before, you probably don’t know what a directive is. Essentially, a directive is some special token in the markup that tells the library to do something to a DOM element. In Vue.js, the concept of directive is drastically simpler than that in Angular. A Vue.js directive can only appear in the form of a prefixed HTML attribute that takes the following format:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+    <h2 id="synopsis">Synopsis</h2>
+<p>If you have not used AngularJS before, you probably don&#39;t know what a directive is. Essentially, a directive is some special token in the markup that tells the library to do something to a DOM element. In Vue.js, the concept of directive is drastically simpler than that in Angular. A Vue.js directive can only appear in the form of a prefixed HTML attribute that takes the following format:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">element</span> <span class="attribute">prefix-directiveId</span>=<span class="value">"[arg:] ( keypath | expression ) [filters...]"</span>&gt;</span><span class="tag">&lt;/<span class="title">element</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<h2 id="A_Simple_Example">A Simple Example</h2>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<h2 id="a-simple-example">A Simple Example</h2>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-text</span>=<span class="value">"message"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<p>Here the prefix is <code>v</code> which is the default. The directive ID is <code>text</code> and the the keypath is <code>message</code>. This directive instructs Vue.js to update the div’s <code>textContent</code> whenever the <code>message</code> property on the ViewModel changes.</p>
-<h2 id="Inline_Expressions">Inline Expressions</h2>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<p>Here the prefix is <code>v</code> which is the default. The directive ID is <code>text</code> and the the keypath is <code>message</code>. This directive instructs Vue.js to update the div&#39;s <code>textContent</code> whenever the <code>message</code> property on the ViewModel changes.</p>
+<h2 id="inline-expressions">Inline Expressions</h2>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-text</span>=<span class="value">"'hello ' + user.firstName + ' ' + user.lastName"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
@@ -97,17 +97,17 @@
 <p>You should use expressions wisely and avoid putting too much logic in your templates, especially statements with side effects (with the exception of event listener expressions). For bindings that require more complicated operations, use <a href="/guide/computed.html">Computed Properties</a> instead.</p>
 <p class="tip">For security reasons, in inline expressions you can only access properties and methods present on the current context ViewModel and its parents.</p>
 
-<h2 id="Argument">Argument</h2>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<h2 id="argument">Argument</h2>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-on</span>=<span class="value">"click : clickHandler"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 <p>Some directives require an argument before the keypath or expression. In this example the <code>click</code> argument indicates we want the <code>v-on</code> directive to listen for a click event and then call the <code>clickHandler</code> method of the ViewModel instance.</p>
-<h2 id="Filters">Filters</h2>
+<h2 id="filters">Filters</h2>
 <p>Filters can be appended to directive keypaths or expressions to further process the value before updating the DOM. Filters are denoted by a single pipe (<code>|</code>) as in shell scripts. For more details see <a href="/guide/filters.html">Filters in Depth</a>.</p>
-<h2 id="Multiple_Clauses">Multiple Clauses</h2>
+<h2 id="multiple-clauses">Multiple Clauses</h2>
 <p>You can create multiple bindings of the same directive in a single attribute, separated by commas:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -121,9 +121,9 @@
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<h2 id="Empty_Directive">Empty Directive</h2>
-<p>Some direcitves don’t create data bindings - they simply do something to the element once and do not require a keypath or expression at all, for example the <code>v-pre</code> directive:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<h2 id="empty-directive">Empty Directive</h2>
+<p>Some direcitves don&#39;t create data bindings - they simply do something to the element once and do not require a keypath or expression at all, for example the <code>v-pre</code> directive:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-pre</span>&gt;</span>
@@ -131,7 +131,7 @@
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<h2 id="Writing_a_Custom_Directive">Writing a Custom Directive</h2>
+<h2 id="writing-a-custom-directive">Writing a Custom Directive</h2>
 <p>You can register a global custom directive with the <code>Vue.directive()</code> method, passing in a <strong>directiveID</strong> followed by a <strong>definition object</strong>. A definition object can provide several hook functions (all optional):</p>
 <ul>
 <li><strong>bind</strong>: called only once, when the directive is first bound to the element.</li>
@@ -139,7 +139,7 @@
 <li><strong>unbind</strong>: called only once, when the directive is unbound from the element.</li>
 </ul>
 <p><strong>Example</strong></p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -172,12 +172,12 @@
 </pre></td></tr></table></figure>
 
 <p>Once registered, you can use it in Vue.js templates like this (you need to add the Vue.js prefix to it):</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-my-directive</span>=<span class="value">"someValue"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 <p>When you only need the <code>update</code> function, you can pass in a single function instead of the definition object:</p>
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre>Vue.directive(<span class="string">'my-directive'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(value)</span> {</span>
@@ -196,11 +196,11 @@
 <p class="tip">You should treat all these properties as read-only and refrain from changing them. You can attach custom properties to the directive object too, but be careful not to accidentally overwrite existing internal ones.</p>
 
 <p>An example of a custom directive using some of these properties:</p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"demo"</span> <span class="attribute">v-demo</span>=<span class="value">"LightSlateGray : msg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -261,7 +261,8 @@ var demo = new Vue({
 })
 </script>
 
-<p>For more complicated examples, checkout <code>src/directives/</code> in the source code.<br>Next: <a href="/guide/filters.html">Filters in Depth</a>.</p>
+<p>For more complicated examples, checkout <code>src/directives/</code> in the source code.
+Next: <a href="/guide/filters.html">Filters in Depth</a>.</p>
 
 </div>
         

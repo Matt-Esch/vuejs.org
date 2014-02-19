@@ -67,11 +67,11 @@
 <div class="content api with-sidebar">
     <h1>Filters</h1>
     <h3 id="capitalize">capitalize</h3>
-<p><em>‘abc’ =&gt; ‘Abc’</em></p>
+<p><em>&#39;abc&#39; =&gt; &#39;Abc&#39;</em></p>
 <h3 id="uppercase">uppercase</h3>
-<p><em>‘abc’ =&gt; ‘ABC’</em></p>
+<p><em>&#39;abc&#39; =&gt; &#39;ABC&#39;</em></p>
 <h3 id="lowercase">lowercase</h3>
-<p><em>‘ABC’ =&gt; ‘abc’</em></p>
+<p><em>&#39;ABC&#39; =&gt; &#39;abc&#39;</em></p>
 <h3 id="currency">currency</h3>
 <ul>
 <li>this filter takes one optional argument</li>
@@ -82,15 +82,18 @@
 <ul>
 <li>this filter takes at least one argument</li>
 </ul>
-<p><em>1 =&gt; ‘1 item’</em><br><em>2 =&gt; ‘2 items’</em></p>
-<p>When there is exactly one arg, plural forms simply add an “s” at the end. When there are more than one argument, the arguments will be used as array of strings corresponding to the single, double, triple … forms of the word to be pluralized. When the number to be pluralized exceeds the length of the args, it will use the last entry in the array.</p>
+<p><em>1 =&gt; &#39;1 item&#39;</em><br><em>2 =&gt; &#39;2 items&#39;</em></p>
+<p>When there is exactly one arg, plural forms simply add an &quot;s&quot; at the end. When there are more than one argument, the arguments will be used as array of strings corresponding to the single, double, triple ... forms of the word to be pluralized. When the number to be pluralized exceeds the length of the args, it will use the last entry in the array.</p>
 <p><strong>Example:</strong></p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">span</span> <span class="attribute">v-text</span>=<span class="value">"date | st nd rd th"</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 <p>Will result in:</p>
-<p><em>1 =&gt; ‘1 st’</em><br><em>2 =&gt; ‘2 nd’</em><br><em>3 =&gt; ‘3 rd’</em><br><em>4 =&gt; ‘4 th’</em><br><em>5 =&gt; ‘5 th’</em></p>
+<p><em>1 =&gt; &#39;1 st&#39;</em><br><em>2 =&gt; &#39;2 nd&#39;</em>
+<em>3 =&gt; &#39;3 rd&#39;</em>
+<em>4 =&gt; &#39;4 th&#39;</em>
+<em>5 =&gt; &#39;5 th&#39;</em></p>
 <h3 id="key">key</h3>
 <ul>
 <li>this filter only works in <code>v-on</code></li>
@@ -108,7 +111,7 @@
 <li>right</li>
 </ul>
 <p><strong>Example:</strong></p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">input</span> <span class="attribute">v-on</span>=<span class="value">"keyup:doSomething | key enter"</span>&gt;</span>
 </pre></td></tr></table></figure>
 
