@@ -1,4 +1,7 @@
 describe('UNIT: Directives', function () {
+
+    var nextTick = require('vue/src/utils').nextTick,
+        VM = require('vue/src/viewmodel')
     
     describe('attr', function () {
 
@@ -215,7 +218,7 @@ describe('UNIT: Directives', function () {
             it('should trigger vm.$set when clicked', function () {
                 var triggered = false
                 dir.key = 'foo'
-                dir.vm = { $set: function (key, val) {
+                dir.ownerVM = { $set: function (key, val) {
                     assert.strictEqual(key, 'foo')
                     assert.strictEqual(val, true)
                     triggered = true
@@ -226,8 +229,10 @@ describe('UNIT: Directives', function () {
 
             it('should remove event listener with unbind()', function () {
                 var removed = true
-                dir.vm.$set = function () {
-                    removed = false
+                dir.ownerVM = {
+                    $set: function () {
+                       removed = false
+                    }
                 }
                 dir.unbind()
                 dir.el.dispatchEvent(mockMouseEvent('click'))
@@ -265,7 +270,7 @@ describe('UNIT: Directives', function () {
             it('should trigger vm.$set when clicked', function () {
                 var triggered = false
                 dir2.key = 'radio'
-                dir2.vm = { $set: function (key, val) {
+                dir2.ownerVM = { $set: function (key, val) {
                     triggered = true
                     assert.strictEqual(key, 'radio')
                     assert.strictEqual(val, dir2.el.value)
@@ -278,7 +283,7 @@ describe('UNIT: Directives', function () {
 
             it('should remove listeners on unbind()', function () {
                 var removed = true
-                dir1.vm = { $set: function () {
+                dir1.ownerVM = { $set: function () {
                     removed = false
                 }}
                 dir1.unbind()
@@ -316,7 +321,7 @@ describe('UNIT: Directives', function () {
             it('should trigger vm.$set when value is changed', function () {
                 var triggered = false
                 dir.key = 'select'
-                dir.vm = { $set: function (key, val) {
+                dir.ownerVM = { $set: function (key, val) {
                     triggered = true
                     assert.strictEqual(key, 'select')
                     assert.equal(val, 1)
@@ -328,7 +333,7 @@ describe('UNIT: Directives', function () {
 
             it('should remove listener on unbind()', function () {
                 var removed = true
-                dir.vm = { $set: function () {
+                dir.ownerVM = { $set: function () {
                     removed = false
                 }}
                 dir.unbind()
@@ -360,7 +365,7 @@ describe('UNIT: Directives', function () {
             it('should trigger vm.$set when value is changed via input', function () {
                 var triggered = false
                 dir.key = 'foo'
-                dir.vm = { $set: function (key, val) {
+                dir.ownerVM = { $set: function (key, val) {
                     assert.ok(dir.lock, 'the directive should be locked if it has no filters')
                     assert.strictEqual(key, 'foo')
                     assert.strictEqual(val, 'bar')
@@ -373,8 +378,10 @@ describe('UNIT: Directives', function () {
 
             it('should remove event listener with unbind()', function () {
                 var removed = true
-                dir.vm.$set = function () {
-                    removed = false
+                dir.ownerVM = {
+                    $set: function () {
+                        removed = false
+                    }
                 }
                 dir.unbind()
                 dir.el.dispatchEvent(mockHTMLEvent('input'))
@@ -386,7 +393,7 @@ describe('UNIT: Directives', function () {
                 var dir = mockDirective('model', 'input', 'text')
                 dir.filters = []
                 dir.bind()
-                dir.vm = {$set:function () {
+                dir.ownerVM = {$set:function () {
                     assert.notOk(dir.lock)
                     triggered = true
                 }}
@@ -640,9 +647,6 @@ describe('UNIT: Directives', function () {
     // this is mainly for code coverage
     describe('repeat', function () {
 
-        var nextTick = require('vue/src/utils').nextTick,
-            VM = require('vue/src/viewmodel')
-
         it('should work', function (done) {
             var handlerCalled = false
             var v = new Vue({
@@ -690,6 +694,92 @@ describe('UNIT: Directives', function () {
             }
         })
 
+        it('should work with primitive values', function () {
+            var v = new Vue({
+                template: '<span v-repeat="tags" v-ref="tags">{{$value}}</span>',
+                data: {
+                    tags: ['a', 'b', 'c']
+                }
+            })
+            assert.strictEqual(v.$el.textContent, 'abc')
+            v.$.tags[0].$value = 'd'
+            assert.strictEqual(v.tags[0], 'd')
+        })
+
+        it('should diff and reuse existing VMs when reseting arrays', function (done) {
+            var v = new Vue({
+                template: '<span v-repeat="tags" v-ref="tags">{{$value}}</span>',
+                data: {
+                    tags: ['a', 'b', 'c']
+                }
+            })
+            var oldVMs = v.$.tags
+            v.tags = v.tags.slice()
+            nextTick(function () {
+                assert.deepEqual(oldVMs, v.$.tags)
+                done()
+            })
+        })
+        
+        it('should also work on objects', function (done) {
+            var v = new Vue({
+                template: '<span v-repeat="obj">{{$key}} {{msg}}</span>',
+                data: {
+                    obj: {
+                        a: {
+                            msg: 'hi!'
+                        },
+                        b: {
+                            msg: 'ha!'
+                        }
+                    }
+                }
+            })
+            assert.strictEqual(v.$el.textContent, 'a hi!b ha!')
+
+            v.obj.a.msg = 'ho!'
+            
+            nextTick(function () {
+                assert.strictEqual(v.$el.textContent, 'a ho!b ha!')
+                testAddKey()
+            })
+
+            function testAddKey () {
+                v.obj.$repeater.push({ $key: 'c', msg: 'he!' })
+                nextTick(function () {
+                    assert.strictEqual(v.$el.textContent, 'a ho!b ha!c he!')
+                    assert.strictEqual(v.obj.c.msg, 'he!')
+                    testRemoveKey()
+                })
+            }
+
+            function testRemoveKey () {
+                v.obj.$repeater.shift()
+                nextTick(function () {
+                    assert.strictEqual(v.$el.textContent, 'b ha!c he!')
+                    assert.strictEqual(v.obj.a, undefined)
+                    testSwap()
+                })
+            }
+
+            function testSwap () {
+                v.obj.b = { msg: 'hehe' }
+                nextTick(function () {
+                    assert.strictEqual(v.$el.textContent, 'b hehec he!')
+                    testRootSwap()
+                })
+            }
+
+            function testRootSwap () {
+                v.obj = { b: { msg: 'wa'}, c: {msg: 'wo'} }
+                nextTick(function () {
+                    assert.strictEqual(v.$el.textContent, 'b wac wo')
+                    done()
+                })
+            }
+           
+        })
+
     })
 
     describe('style', function () {
@@ -726,6 +816,14 @@ describe('UNIT: Directives', function () {
             assert.strictEqual(d.el.style.msTransform, val)
         })
 
+        it('should set cssText if no arg', function () {
+            var d = mockDirective('style')
+            d.bind()
+            var val = 'color:#fff'
+            d.update(val)
+            assert.strictEqual(d.el.style.color, 'rgb(255, 255, 255)')
+        })
+
     })
 
     describe('cloak', function () {
@@ -742,6 +840,21 @@ describe('UNIT: Directives', function () {
                 }
             })
             assert.notOk(v.$el.hasAttribute('v-cloak'))
+        })
+
+    })
+
+    describe('data', function () {
+        
+        it('should set data on the child VM', function () {
+            var v = new Vue({
+                template: '<div v-component="test" v-ref="test" v-data="a:1,b:hi"></div>',
+                components: {
+                    test: Vue
+                }
+            })
+            assert.strictEqual(v.$.test.a, 1)
+            assert.strictEqual(v.$.test.b, 'hi')
         })
 
     })

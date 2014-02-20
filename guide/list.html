@@ -32,7 +32,9 @@
     <ul id="nav">
         <li><a href="/guide/" class="nav-link current">Guide</a></li>
         <li><a href="/api/" class="nav-link">API Reference</a></li>
+        <br class="break" />
         <li><a href="/examples/" class="nav-link">Examples</a></li>
+        <li><a href="/blog/" class="nav-link">Blog</a></li>
         <li><a href="https://github.com/yyx990803/vue" target="_blank" class="nav-link">GitHub</a></li>
     </ul>
 </div>
@@ -128,12 +130,12 @@ var demo = new Vue({
 </script>
 
 <h2 id="arrays-of-primitive-values">Arrays of Primitive Values</h2>
-<p>For Arrays containing primitive values, you can access the value simply as <code>value</code>:</p>
+<p>For Arrays containing primitive values, you can access the value simply as <code>$value</code>:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"tags"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">v-repeat</span>=<span class="value">"tags"</span>&gt;</span>{&#123;value&#125;}<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">v-repeat</span>=<span class="value">"tags"</span>&gt;</span>{&#123;$value&#125;}<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
 </pre></td></tr></table></figure>
 
@@ -152,7 +154,7 @@ var demo = new Vue({
 </pre></td></tr></table></figure>
 
 <p><strong>Result:</strong></p>
-<p><ul id="tags" class="demo"><li v-repeat="tags">{&#123;value&#125;}</li></ul></p>
+<p><ul id="tags" class="demo"><li v-repeat="tags">{&#123;$value&#125;}</li></ul></p>
 <script>
 new Vue({
     el: '#tags',
@@ -242,6 +244,108 @@ demo.items.remove(<span class="function"><span class="keyword">function</span> <
 
 <p><a href="#demo" onclick="demoRemove()">Execute this</a></p>
 
+<h2 id="iterating-through-an-object">Iterating Through An Object</h2>
+<p>Starting in Vue.js v0.8.8, you can also use <code>v-repeat</code> to iterate through the properties of an Object. Each repeated instance will have a special property <code>$key</code>. For primitive values, you also get <code>$value</code> which is similar to primitive values in Arrays.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">ul</span> <span class="attribute">id</span>=<span class="value">"repeat-object"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">v-repeat</span>=<span class="value">"primitiveValues"</span>&gt;</span>{&#123;$key&#125;} : {&#123;$value&#125;}<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span>===<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">v-repeat</span>=<span class="value">"objectValues"</span>&gt;</span>{&#123;$key&#125;} : {&#123;msg&#125;}<span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="keyword">new</span> Vue({
+    el: <span class="string">'#repeat-object'</span>,
+    data: {
+        primitiveValues: {
+            FirstName: <span class="string">'John'</span>,
+            LastName: <span class="string">'Doe'</span>,
+            Age: <span class="number">30</span>
+        },
+        objectValues: {
+            one: {
+                msg: <span class="string">'Hello'</span>
+            },
+            two: {
+                msg: <span class="string">'Bye'</span>
+            }
+        }
+    }
+})
+</pre></td></tr></table></figure>
+
+<p><strong>Result:</strong></p>
+<p><ul id="repeat-object" class="demo"><li v-repeat="primitiveValues">{&#123;$key&#125;} : {&#123;$value&#125;}</li><li>===</li><li v-repeat="objectValues">{&#123;$key&#125;} : {&#123;msg&#125;}</li></ul></p>
+<script>
+new Vue({
+    el: '#repeat-object',
+    data: {
+        primitiveValues: {
+            FirstName: 'John',
+            LastName: 'Doe',
+            Age: 30
+        },
+        objectValues: {
+            one: {
+                msg: 'Hello'
+            },
+            two: {
+                msg: 'Bye'
+            }
+        }
+    }
+})
+</script>
+
+<h3 id="the-repeater-array">The <code>$repeater</code> Array</h3>
+<p>Under the hood, Vue.js creates an Array representing the iterated Object. This Array can be accessed as <code>object.$repeater</code>. It is defined as a hidden property so it won&#39;t show up during serialization or <code>for (... in ...)</code> loops. Due to ES5&#39;s limitations, we cannot detect when new properties are added to an Object. So in order to add properties to an Object being iterated by <code>v-repeat</code>, you can push a new object into its <code>$repeater</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="comment">// push a primitive value - a string</span>
+object.$repeater.push({
+    $key: <span class="string">'newPrimitiveProperty'</span>,
+    $value: <span class="string">'a primitive value'</span>
+})
+
+<span class="comment">// push a normal object - make sure it contains `$key`</span>
+object.$repeater.push({
+    $key: <span class="string">'newObject'</span>,
+    msg: <span class="string">'hi!'</span>
+})
+</pre></td></tr></table></figure>
+
+<p><code>newProp</code> will be added back to the Object with the provided value. Similarly, other mutating operations on the <code>$repeater</code> will sync back to the original Object. For example, executing <code>$repeater.pop()</code> will delete the popped element&#39;s <code>$key</code> in the original Object.</p>
 <p>Next up: <a href="/guide/events.html">Listening for Events</a>.</p>
 <script>
 function demoPush () {
@@ -273,6 +377,7 @@ function demoReplace2 () {
     })
 }
 </script>
+
 </div>
         
         </div>

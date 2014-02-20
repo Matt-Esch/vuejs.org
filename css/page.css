@@ -88,6 +88,7 @@ pre .xml .cdata {
 }
 body {
   font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
   color: #34495e;
   margin: 0;
 }
@@ -248,6 +249,37 @@ ul.demo li {
     margin-left: 0;
   }
 }
+.content.blog h1 {
+  margin: 0 0 0.5em;
+}
+.content.blog h2 {
+  margin: 0.8em 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.content.blog h2 a {
+  color: #2c3e50;
+}
+.content.blog h2 a:hover {
+  border-bottom: 2px solid #42b983;
+}
+.content.blog h4 {
+  color: #7f8c8d;
+  margin: 1.2em 0;
+}
+.content.blog figure,
+.content.blog p {
+  margin-left: 0;
+}
+.content.blog .post {
+  padding: 1em 0 2em;
+  border-bottom: 1px solid #ddd;
+}
+@media screen and (max-width: 1400px) and (min-width: 720px) {
+  .content.blog {
+    margin: 0 0 0 280px;
+  }
+}
 #header {
   background-color: #fff;
   box-shadow: 0 0 4px rgba(0,0,0,0.25);
@@ -263,12 +295,12 @@ ul.demo li {
   height: 40px;
   line-height: 40px;
 }
+#nav .break {
+  display: none;
+}
 #nav li {
   display: inline-block;
-  margin-left: 1.2em;
-}
-#nav li:first-child {
-  margin-left: 0 !important;
+  margin: 0 0.6em;
 }
 .nav-link {
   padding-bottom: 3px;
@@ -319,6 +351,9 @@ ul.demo li {
 .sidebar .sidebar-link.current {
   font-weight: 600;
   color: #42b983;
+}
+.sidebar .sidebar-link:hover {
+  border-bottom: 2px solid #42b983;
 }
 .content {
   padding: 2.2em 0;
@@ -426,9 +461,24 @@ ul.demo li {
   #nav {
     position: static;
     margin-top: 0.4em;
+    height: 55px;
+    line-height: 2.2em;
+  }
+  #nav .break {
+    display: inline-block;
+  }
+  .nav-link {
+    padding-bottom: 1px;
+  }
+  .nav-link:hover,
+  .nav-link.current {
+    border-bottom: 2px solid #42b983;
   }
   #logo {
     display: block;
+  }
+  #logo img {
+    margin-right: 0;
   }
   #logo span {
     display: none;

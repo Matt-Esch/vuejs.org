@@ -32,7 +32,9 @@
     <ul id="nav">
         <li><a href="/guide/" class="nav-link current">Guide</a></li>
         <li><a href="/api/" class="nav-link">API Reference</a></li>
+        <br class="break" />
         <li><a href="/examples/" class="nav-link">Examples</a></li>
+        <li><a href="/blog/" class="nav-link">Blog</a></li>
         <li><a href="https://github.com/yyx990803/vue" target="_blank" class="nav-link">GitHub</a></li>
     </ul>
 </div>
@@ -96,12 +98,19 @@ Vue.use(vueTouch)
 Vue.use(<span class="string">'vue-touch'</span>)
 </pre></td></tr></table></figure>
 
+<h3 id="optional-arguments">Optional arguments</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="comment">// every additional argument will be passed to the plugin</span>
+Vue.use(<span class="string">'vue-touch'</span>, { moveTolerance: <span class="number">12</span> })
+</pre></td></tr></table></figure>
+
 <h2 id="plugin-implementation">Plugin Implementation</h2>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
-</pre></td><td class="code"><pre>exports.install = <span class="function"><span class="keyword">function</span> <span class="params">(Vue)</span> {</span>
+</pre></td><td class="code"><pre>exports.install = <span class="function"><span class="keyword">function</span> <span class="params">(Vue, options)</span> {</span>
     <span class="comment">// use Vue.require to access internal modules</span>
     <span class="keyword">var</span> utils = Vue.require(<span class="string">'utils'</span>)
 }

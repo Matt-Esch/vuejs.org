@@ -32,7 +32,9 @@
     <ul id="nav">
         <li><a href="/guide/" class="nav-link">Guide</a></li>
         <li><a href="/api/" class="nav-link current">API Reference</a></li>
+        <br class="break" />
         <li><a href="/examples/" class="nav-link">Examples</a></li>
+        <li><a href="/blog/" class="nav-link">Blog</a></li>
         <li><a href="https://github.com/yyx990803/vue" target="_blank" class="nav-link">GitHub</a></li>
     </ul>
 </div>
@@ -239,9 +241,10 @@ Vue.config({
 <li><strong>module</strong> <code>String</code></li>
 </ul>
 <p>Get access to Vue.js&#39; internal modules. This is intended for plugin authors only.</p>
-<h3 id="vue-use-plguin-">Vue.use( plguin )</h3>
+<h3 id="vue-use-plugin-args-">Vue.use( plugin, [args...] )</h3>
 <ul>
 <li><strong>plugin</strong> <code>Object</code> or <code>Function</code></li>
+<li><strong>args...</strong> <em>optional</em></li>
 </ul>
 <p>Mount a Vue.js plugin. If the plugin is an Object, it must have an <code>install</code> method. If it is a function itself, it will be treated as the install method. The install method will be called with Vue as the argument. For more details, see <a href="/guide/plugin.html">Plugins</a>.</p>
 

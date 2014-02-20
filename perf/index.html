@@ -32,7 +32,9 @@
     <ul id="nav">
         <li><a href="/guide/" class="nav-link">Guide</a></li>
         <li><a href="/api/" class="nav-link">API Reference</a></li>
+        <br class="break" />
         <li><a href="/examples/" class="nav-link">Examples</a></li>
+        <li><a href="/blog/" class="nav-link">Blog</a></li>
         <li><a href="https://github.com/yyx990803/vue" target="_blank" class="nav-link">GitHub</a></li>
     </ul>
 </div>
@@ -46,6 +48,7 @@
 <blockquote>
 <p><em>Last Updated: 2014-02-11</em></p>
 <p>This is a benchmark found in the <a href="https://github.com/WebKit/webkit/tree/master/PerformanceTests/DoYouEvenBench" target="_blank">webkit performance tests</a> based on the <a href="http://todomvc.com/" target="_blank">TodoMVC</a> project. For each framework implementation, add 100 todos, toggle them one by one, then delete them one by one. In addition to the most popular MV* libraries, I also included <a href="https://github.com/swannodette/om" target="_blank">Om</a> (a ClojureScript interface on top of React which boasts of performance) and <a href="http://www.ractivejs.org/" target="_blank">Ractive</a> (very similar in terms of use case and API).</p>
+<p>It is important to note that the original benchmark was written to compare the performance of different browsers, rather than that of the frameworks. The results of this benchmark only speak for this specific scenario and in no way reflect the user experience in a real product. You should take these numbers with a grain of salt.</p>
 </blockquote>
 <h3 id="compared-libraries">Compared libraries</h3>
 <ul>
@@ -62,7 +65,6 @@
 <p>10 runs average, faster is better. Data collected on an <span id="_machine"></span> with a <span id="_cpu"></span> Processor under <span id="_os"></span>.</p>
 <ul id="benchmark-results"></ul>
 
-<p>Please note these numbers only reflect one very specific use case and the outcome could be drastically different depending on implementation and interactions measured. However, this could at least provide some perspective in terms of general performance.</p>
 <p>You can run these benchmarks in your browser <a href="/perf/todomvc-benchmark/">here</a>.</p>
 <p><script src="/js/benchmark.js"></script></p>
 <link rel="stylesheet" type="text/css" href="/css/benchmark.css">

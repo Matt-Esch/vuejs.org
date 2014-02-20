@@ -88,6 +88,7 @@ pre .xml .cdata {
 }
 body {
   font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
   color: #34495e;
   margin: 0;
 }
@@ -220,7 +221,10 @@ body {
 .nav-link {
   color: #7f8c8d;
   padding-bottom: 3px;
-  margin: 0 1em;
+  margin: 0 1.5em;
+}
+.nav-link:first-child {
+  margin-left: 0;
 }
 .nav-link:hover,
 .nav-link.current {
