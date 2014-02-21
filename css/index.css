@@ -218,6 +218,9 @@ body {
 #nav li {
   display: inline-block;
 }
+#nav li:last-child .nav-link {
+  margin-right: 0;
+}
 .nav-link {
   color: #7f8c8d;
   padding-bottom: 3px;

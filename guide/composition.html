@@ -110,12 +110,12 @@ Vue.component(<span class="string">'my-component'</span>, MyComponent)
 </pre></td></tr></table></figure>
 
 <h2 id="partials-and-123-yield-125-">Partials and {&#123;&gt;yield&#125;}</h2>
-<p>You can use partials in templates with {&#123;&gt;partial-id&#125;}, but there is a special reserved partial ID: <code>yield</code>. Basically, the <code>yield</code> partial inside a template serves as a placeholder for the original, pre-compile content inside the element. This syntax allows components to be easily nested and composed while maintaining their custom markup. For example:</p>
+<p>You can use partials in templates with {&#123;&gt;partial-id&#125;}, but there is a special reserved partial ID: <code>yield</code>. Basically, the <code>yield</code> partial inside a template serves as a insertion point for the original, pre-compile content inside the element. This syntax allows components to be easily nested and composed while maintaining their custom markup. For example:</p>
 <p>Top level markup:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"test"</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span>
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span>
     <span class="tag">&lt;<span class="title">p</span>&gt;</span>original content<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
@@ -131,7 +131,7 @@ Vue.component(<span class="string">'my-component'</span>, MyComponent)
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<p><code>#test</code>&#39;s content will be replaced with the component&#39;s template, but the original content will be preserved and inserted into the <code>yield</code> position. It no <code>yield</code> outlet is found in the template, the original content will be wiped away.</p>
+<p>When the component element is compiled, its content will be replaced with the component&#39;s template, but the original content will be preserved and inserted into the <code>yield</code> position. It no <code>yield</code> outlet is found in the template, the original content will be wiped away.</p>
 <h2 id="encapsulating-private-assets">Encapsulating Private Assets</h2>
 <p>Sometimes a component needs to use assets such as directives, filters and its own child components, but might want to keep these assets encapsulated so the component itself can be reused elsewhere. You can do that using the private assets instantiation options. Private assets will only be accessible by the instances of the owner component and its child components.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1

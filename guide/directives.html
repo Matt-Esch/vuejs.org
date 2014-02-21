@@ -123,8 +123,15 @@
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<h2 id="empty-directive">Empty Directive</h2>
-<p>Some direcitves don&#39;t create data bindings - they simply do something to the element once and do not require a keypath or expression at all, for example the <code>v-pre</code> directive:</p>
+<h2 id="literal-directives">Literal Directives</h2>
+<p>Some direcitves don&#39;t create data bindings - they simply take the attribute value as a literal string. For example the <code>v-component</code> directive:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>Here <code>&quot;my-component&quot;</code> is not a data property - it&#39;s a string ID that Vue.js uses to lookup the corresponding Component constructor. A full list of literal directives can be found in the <a href="/api/directives.html#literal-directives">API reference</a>.</p>
+<h2 id="empty-directives">Empty Directives</h2>
+<p>Some direcitves don&#39;t even expect an attribute value - they simply do something to the element once and only once. For example the <code>v-pre</code> directive:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -133,6 +140,7 @@
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
+<p>A full list of empty directives can be found in the <a href="/api/directives.html#empty-directives">API reference</a>.</p>
 <h2 id="writing-a-custom-directive">Writing a Custom Directive</h2>
 <p>You can register a global custom directive with the <code>Vue.directive()</code> method, passing in a <strong>directiveID</strong> followed by a <strong>definition object</strong>. A definition object can provide several hook functions (all optional):</p>
 <ul>
@@ -192,6 +200,7 @@
 <li><strong>el</strong>: the element the directive is bound to.</li>
 <li><strong>key</strong>: the keypath of the binding, excluding arguments and filters.</li>
 <li><strong>arg</strong>: the argument, if present.</li>
+<li><strong>expression</strong>: the raw, unparsed expression.</li>
 <li><strong>vm</strong>: the context ViewModel that owns this directive.</li>
 <li><strong>value</strong>: the current binding value.</li>
 </ul>
@@ -263,8 +272,39 @@ var demo = new Vue({
 })
 </script>
 
-<p>For more complicated examples, checkout <code>src/directives/</code> in the source code.
-Next: <a href="/guide/filters.html">Filters in Depth</a>.</p>
+<h3 id="creating-literal-amp-empty-directives">Creating Literal &amp; Empty Directives</h3>
+<p>Since literal and empty directives do not create data bindings, they have no use for an <code>update()</code> function. So if you don&#39;t provide an <code>update()</code> function when you define a custom directive, it will be considered literal/empty and all data binding work will be skipped. The attribute value will still be parsed if present, so you can access <code>this.key</code>, <code>this.arg</code> or <code>this.expression</code> as needed.</p>
+<h3 id="creating-a-function-directive">Creating a Function Directive</h3>
+<p>Vue.js encourages the developer to separate data from behavior, so instance methods are expected to be contained in the <code>methods</code> option and not inside data objects. As a result, functions inside data objects are ignored and normal directives will not be able to bind to them.</p>
+<p>To gain access to functions inside <code>methods</code> in your custom directive, you need to pass in the <code>isFn</code> option:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre>Vue.directive(<span class="string">'my-handler'</span>, {
+    isFn: <span class="literal">true</span>, <span class="comment">// important!</span>
+    bind: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        <span class="comment">// ...</span>
+    },
+    update: <span class="function"><span class="keyword">function</span> <span class="params">(handler)</span> {</span>
+        <span class="comment">// the passed in value is a function</span>
+    },
+    unbind: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        <span class="comment">// ...</span>
+    }
+})
+</pre></td></tr></table></figure>
+
+<p>Passing in <code>isFn:true</code> also enables your custom directive to accept inline expressions like <code>v-on</code> does. For more comprehensive examples, checkout <code>src/directives/</code> in the source code.</p>
+<p>Next: <a href="/guide/filters.html">Filters in Depth</a>.</p>
 
 </div>
         
