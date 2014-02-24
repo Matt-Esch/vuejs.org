@@ -693,7 +693,6 @@ var utils = module.exports = {
             if (protective && obj[key]) continue
             obj[key] = ext[key]
         }
-        return obj
     },
 
     /**

@@ -124,14 +124,14 @@
 </pre></td></tr></table></figure>
 
 <h2 id="literal-directives">Literal Directives</h2>
-<p>Some direcitves don&#39;t create data bindings - they simply take the attribute value as a literal string. For example the <code>v-component</code> directive:</p>
+<p>Some directives don&#39;t create data bindings - they simply take the attribute value as a literal string. For example the <code>v-component</code> directive:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 <p>Here <code>&quot;my-component&quot;</code> is not a data property - it&#39;s a string ID that Vue.js uses to lookup the corresponding Component constructor. A full list of literal directives can be found in the <a href="/api/directives.html#literal-directives">API reference</a>.</p>
 <h2 id="empty-directives">Empty Directives</h2>
-<p>Some direcitves don&#39;t even expect an attribute value - they simply do something to the element once and only once. For example the <code>v-pre</code> directive:</p>
+<p>Some directives don&#39;t even expect an attribute value - they simply do something to the element once and only once. For example the <code>v-pre</code> directive:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
