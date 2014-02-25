@@ -278,26 +278,26 @@ describe('UNIT: API', function () {
         })
     })
 
-    describe('transition()', function () {
+    describe('effect()', function () {
         
-        var testId = 'api-trans-test',
-            transition = {}
+        var testId = 'api-effect-test',
+            effect = {}
 
-        it('should register a transition object', function () {
-            Vue.transition(testId, transition)
-            assert.strictEqual(assets.transitions[testId], transition)
+        it('should register a effect object', function () {
+            Vue.effect(testId, effect)
+            assert.strictEqual(assets.effects[testId], effect)
         })
 
-        it('should retrieve the transition if has only one arg', function () {
-            assert.strictEqual(Vue.transition(testId), transition)
+        it('should retrieve the effect if has only one arg', function () {
+            assert.strictEqual(Vue.effect(testId), effect)
         })
 
-        it('should work with v-transition', function (done) {
+        it('should work with v-effect', function (done) {
 
             var enterCalled = false,
                 leaveCalled = false
 
-            Vue.transition('transition-api-test', {
+            Vue.effect('effect-api-test', {
                 enter: function (el, done) {
                     enterCalled = true
                     done()
@@ -311,7 +311,7 @@ describe('UNIT: API', function () {
             var t = new Vue({
                 attributes: {
                     'v-show': 'show',
-                    'v-transition': 'transition-api-test'
+                    'v-effect': 'effect-api-test'
                 },
                 data: {
                     show: false
@@ -373,11 +373,25 @@ describe('UNIT: API', function () {
         })
 
         it('should allow subclasses to attach private assets', function () {
+            var testId = 'sub-private'
             var Sub = Vue.extend({})
-            Sub.component('test', {})
-            assert.strictEqual(Sub.options.components.test.super, Vue)
-            Sub.partial('test', '123')
-            assert.ok(Sub.options.partials.test instanceof window.DocumentFragment)
+            Sub.component(testId, {})
+            assert.strictEqual(Sub.options.components[testId].super, Vue)
+            Sub.partial(testId, '123')
+            assert.ok(Sub.options.partials[testId] instanceof window.DocumentFragment)
+
+            var Sub2 = Vue.extend({})
+            Sub2.component(testId, {})
+            assert.notStrictEqual(Sub.options.components[testId], Sub2.options.components[testId])
+            assert.notOk(Vue.options.components[testId])
+        })
+
+        it('should allow subclasses to use plugins', function () {
+            var Sub = Vue.extend({})
+            Sub.use(function (Sub) {
+                Sub.directive('hello', {})
+            })
+            assert.ok(Sub.options.directives.hello)
         })
 
         describe('Options', function () {
@@ -588,6 +602,23 @@ describe('UNIT: API', function () {
 
             })
 
+            describe('paramAttributes', function () {
+                
+                it('should copy listed attributes into data and parse Numbers', function () {
+                    var Test = Vue.extend({
+                        template: '<div a="1" b="hello"></div>',
+                        replace: true,
+                        paramAttributes: ['a', 'b']
+                    })
+                    var v = new Test()
+                    assert.strictEqual(v.a, 1)
+                    assert.strictEqual(v.$data.a, 1)
+                    assert.strictEqual(v.b, 'hello')
+                    assert.strictEqual(v.$data.b, 'hello')
+                })
+
+            })
+
             describe('directives', function () {
                 
                 it('should allow the VM to use private directives', function (done) {
@@ -702,9 +733,9 @@ describe('UNIT: API', function () {
 
             })
 
-            describe('transitions', function () {
+            describe('effects', function () {
                 
-                it('should get called during transitions', function (done) {
+                it('should get called during effects', function (done) {
                     
                     var enterCalled = false,
                         leaveCalled = false
@@ -712,9 +743,9 @@ describe('UNIT: API', function () {
                     var t = new Vue({
                         attributes: {
                             'v-show': 'show',
-                            'v-transition': 'test'
+                            'v-effect': 'test'
                         },
-                        transitions: {
+                        effects: {
                             test: {
                                 enter: function (el, done) {
                                     enterCalled = true

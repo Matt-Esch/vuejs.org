@@ -174,7 +174,10 @@ a.button:hover {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
 }
-.highlight[class*="lang-"] .code:after {
+.highlight.html .code:after,
+.highlight.js .code:after,
+.highlight.bash .code:after,
+.highlight.css .code:after {
   position: absolute;
   top: 0;
   right: 0;
@@ -188,16 +191,16 @@ a.button:hover {
   border-top-left-radius: 0px;
   font-weight: 600;
 }
-.highlight.lang-html .code:after {
+.highlight.html .code:after {
   content: 'HTML';
 }
-.highlight.lang-js .code:after {
+.highlight.js .code:after {
   content: 'JS';
 }
-.highlight.lang-bash .code:after {
+.highlight.bash .code:after {
   content: 'Shell';
 }
-.highlight.lang-css .code:after {
+.highlight.css .code:after {
   content: 'CSS';
 }
 #main {

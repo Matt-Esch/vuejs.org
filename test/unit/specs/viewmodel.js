@@ -84,6 +84,29 @@ describe('UNIT: ViewModel', function () {
             })
         })
 
+        it('should batch mutiple changes in a single event loop', function (done) {
+            var callbackCount = 0,
+                gotVal,
+                finalValue =  { b: { c: 3} },
+                vm = new Vue({
+                    data: {
+                        a: { b: { c: 0 }}
+                    }
+                })
+            vm.$watch('a', function (newVal) {
+                callbackCount++
+                gotVal = newVal
+            })
+            vm.a.b.c = 1
+            vm.a.b = { c: 2 }
+            vm.a = finalValue
+            nextTick(function () {
+                assert.strictEqual(callbackCount, 1)
+                assert.strictEqual(gotVal, finalValue)
+                done()
+            })
+        })
+
     })
 
     describe('.$unwatch()', function () {
@@ -257,9 +280,9 @@ describe('UNIT: ViewModel', function () {
         
         var v = new Vue({
             attributes: {
-                'v-transition': 'test'
+                'v-effect': 'test'
             },
-            transitions: {
+            effects: {
                 test: {
                     enter: function (el, change) {
                         enterCalled = true
@@ -371,7 +394,8 @@ describe('UNIT: ViewModel', function () {
             expUnbindCalled = false,
             bindingUnbindCalled = false,
             unobserveCalled = false,
-            elRemoved = false
+            elRemoved = false,
+            delegatorsRemoved = false
 
         var dirMock = {
             binding: {
@@ -448,6 +472,18 @@ describe('UNIT: ViewModel', function () {
             },
             execHook: function (id) {
                 this.options[id].call(this)
+            },
+            el: {
+                removeEventListener: function (event, handler) {
+                    assert.strictEqual(event, 'click')
+                    assert.strictEqual(handler, compilerMock.delegators.click.handler)
+                    delegatorsRemoved = true
+                }
+            },
+            delegators: {
+                click: {
+                    handler: function () {}
+                }
             }
         }
 
@@ -493,6 +529,10 @@ describe('UNIT: ViewModel', function () {
 
         it('should remove the dom element', function () {
             assert.ok(elRemoved)
+        })
+
+        it('should remove all event delegator listeners', function () {
+            assert.ok(delegatorsRemoved)
         })
 
     })

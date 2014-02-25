@@ -86,9 +86,21 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
+4
+5
+6
+7
+8
+9
 </pre></td><td class="code"><pre><span class="comment">// assuming using a CommonJS build system</span>
 <span class="keyword">var</span> vueTouch = <span class="built_in">require</span>(<span class="string">'vue-touch'</span>)
+<span class="comment">// use the plugin globally</span>
 Vue.use(vueTouch)
+
+<span class="comment">// Extended components can use plugins too!</span>
+<span class="keyword">var</span> awesomePlugin = <span class="built_in">require</span>(<span class="string">'vue-awesome'</span>),
+    MyComponent = Vue.extend({})
+MyComponent.use(awesomePlugin)
 </pre></td></tr></table></figure>
 
 <h3 id="shorthand-equivalent">Shorthand equivalent</h3>
@@ -108,6 +120,7 @@ Vue.use(<span class="string">'vue-touch'</span>, { moveTolerance: <span class="n
 </pre></td></tr></table></figure>
 
 <h2 id="plugin-implementation">Plugin Implementation</h2>
+<p>Note that the passed in <code>Vue</code> constructor could be an extended Component constructor. Assume that only <code>Vue.require()</code> and asset registration methods are available. Do not use <code>Vue.config()</code> inside plugins.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3

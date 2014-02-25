@@ -472,7 +472,7 @@ describe('UNIT: Directives', function () {
 
     })
 
-    describe('on (non-delegated only)', function () {
+    describe('on', function () {
         
         var dir = mockDirective('on')
         dir.arg = 'click'
@@ -487,6 +487,17 @@ describe('UNIT: Directives', function () {
                 triggered = true
             })
             dir.el.dispatchEvent(mockMouseEvent('click'))
+            assert.ok(triggered)
+        })
+
+        it('delegation should work', function () {
+            var triggered = false,
+                child = document.createElement('div')
+            dir.el.appendChild(child)
+            dir.update(function () {
+                triggered = true
+            })
+            child.dispatchEvent(mockMouseEvent('click'))
             assert.ok(triggered)
         })
 
@@ -526,8 +537,6 @@ describe('UNIT: Directives', function () {
             dir.unbind()
             dir.el.dispatchEvent(mockMouseEvent('click'))
             assert.notOk(triggered)
-            assert.strictEqual(dir.handler, null, 'should remove reference to handler')
-            assert.strictEqual(dir.el.vue_viewmodel, null, 'should remove reference to VM on the element')
         })
 
         it('should not use delegation if the event is blur or focus', function () {
@@ -840,21 +849,6 @@ describe('UNIT: Directives', function () {
                 }
             })
             assert.notOk(v.$el.hasAttribute('v-cloak'))
-        })
-
-    })
-
-    describe('data', function () {
-        
-        it('should set data on the child VM', function () {
-            var v = new Vue({
-                template: '<div v-component="test" v-ref="test" v-data="a:1,b:hi"></div>',
-                components: {
-                    test: Vue
-                }
-            })
-            assert.strictEqual(v.$.test.a, 1)
-            assert.strictEqual(v.$.test.b, 'hi')
         })
 
     })

@@ -78,7 +78,9 @@
 
 <div class="content guide with-sidebar">
     <h1>Adding Transition Effects</h1>
-    <p>You can add transition effects when elements are inserted into or removed from the DOM using the <code>v-transition</code> directive. There are two types of transitions: CSS-based and JavaScript-based. All Vue.js transitions are triggered only if the DOM manipulation was applied by Vue.js, either through built-in directives, e.g. <code>v-if</code>, or through ViewModel instance methods, e.g. <code>vm.$appendTo()</code>.</p>
+    <p>With Vue.js&#39; transition hooks you can apply automatic transition effects when elements are inserted into or removed from the DOM. There are three options to implement transitions with Vue.js: CSS transitions, CSS animations, and JavaScript functions.</p>
+<p class="tip">All Vue.js transitions are triggered only if the DOM manipulation was applied by Vue.js, either through built-in directives, e.g. <code>v-if</code>, or through ViewModel instance methods, e.g. <code>vm.$appendTo()</code>.</p>
+
 <h2 id="css-transitions">CSS Transitions</h2>
 <p>To enable CSS transitions on an element, simply give it an empty <code>v-transition</code> directive:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
@@ -131,10 +133,10 @@
 </style>
 
 <script>
-    var demo = new Vue({
-        el: '#demo',
-        data: { show: true }
-    })
+new Vue({
+    el: '#demo',
+    data: { show: true }
+})
 </script>
 
 <p>Now when the <code>show</code> property changes, Vue.js will insert or remove the <code>&lt;p&gt;</code> element accordingly, and apply transition classes as specified below:</p>
@@ -157,8 +159,154 @@
 </ul>
 <p class="tip">It is important to ensure that the target element&#39;s CSS transition rules are properly set and it will fire a <code>transitionend</code> event. Otherwise Vue.js will not be able to determine when the transition is finished.</p>
 
-<h2 id="javascript-transitions">JavaScript Transitions</h2>
-<p>Vue.js provides a way to call arbitrary JavaScript functions during element insertion/removal. To do that you first need to register your transition functions:</p>
+<h2 id="css-animations">CSS Animations</h2>
+<p>CSS animations are applied in a similar fashion with transitions, but using the <code>v-animation</code> directive. The difference is that <code>v-enter</code> is not removed immediately after the element is inserted, but on an <code>animationend</code> callback.</p>
+<p><strong>Example:</strong> (omitting prefixed CSS rules here)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"animated"</span> <span class="attribute">v-if</span>=<span class="value">"show"</span> <span class="attribute">v-animation</span>&gt;</span>Look at me!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="code"><pre><span class="class">.animated</span> <span class="rules">{
+    <span class="rule"><span class="attribute">display</span>:<span class="value"> inline-block</span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.animated</span><span class="class">.v-enter</span> <span class="rules">{
+    <span class="rule"><span class="attribute">animation</span>:<span class="value"> fadein .<span class="number">5</span>s</span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.animated</span><span class="class">.v-leave</span> <span class="rules">{
+    <span class="rule"><span class="attribute">animation</span>:<span class="value"> fadeout .<span class="number">5</span>s</span></span>;
+<span class="rule">}</span></span>
+
+<span class="at_rule">@<span class="keyword">keyframes</span> fadein </span>{
+    0% <span class="rules">{
+        <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">scale(<span class="number">0</span>)</span></span></span>;
+    <span class="rule">}</span></span>
+    50% <span class="rules">{
+        <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">scale(<span class="number">1.5</span>)</span></span></span>;
+    <span class="rule">}</span></span>
+    100% <span class="rules">{
+        <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">scale(<span class="number">1</span>)</span></span></span>;
+    <span class="rule">}</span></span>
+}
+
+<span class="at_rule">@<span class="keyword">keyframes</span> fadeout </span>{
+    0% <span class="rules">{
+        <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">scale(<span class="number">1</span>)</span></span></span>;
+    <span class="rule">}</span></span>
+    50% <span class="rules">{
+        <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">scale(<span class="number">1.5</span>)</span></span></span>;
+    <span class="rule">}</span></span>
+    100% <span class="rules">{
+        <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">scale(<span class="number">0</span>)</span></span></span>;
+    <span class="rule">}</span></span>
+}
+</pre></td></tr></table></figure>
+
+<div id="anim" class="demo"><span class="animated" v-if="show" v-animation>Look at me!</span><br><button v-on="click: show = !show">Toggle</button></div>
+
+<style>
+    .animated {
+        display: inline-block;
+    }
+    .animated.v-enter {
+        -webkit-animation: fadein .5s;
+        animation: fadein .5s;
+    }
+    .animated.v-leave {
+        -webkit-animation: fadeout .5s;
+        animation: fadeout .5s;
+    }
+    @keyframes fadein {
+        0% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(1.5);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    @keyframes fadeout {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.5);
+        }
+        100% {
+            transform: scale(0);
+        }
+    }
+    @-webkit-keyframes fadein {
+        0% {
+            -webkit-transform: scale(0);
+        }
+        50% {
+            -webkit-transform: scale(1.5);
+        }
+        100% {
+            -webkit-transform: scale(1);
+        }
+    }
+    @-webkit-keyframes fadeout {
+        0% {
+            -webkit-transform: scale(1);
+        }
+        50% {
+            -webkit-transform: scale(1.5);
+        }
+        100% {
+            -webkit-transform: scale(0);
+        }
+    }
+</style>
+
+<script>
+new Vue({
+    el: '#anim',
+    data: { show: true }
+})
+</script>
+
+<h2 id="javascript-functions">JavaScript Functions</h2>
+<p>Vue.js provides a way to call arbitrary JavaScript functions during element insertion/removal. To do that you first need to register your effect functions:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -167,19 +315,20 @@
 6
 7
 8
-</pre></td><td class="code"><pre>Vue.transition(<span class="string">'my-transition'</span>, {
-    enter: <span class="function"><span class="keyword">function</span> <span class="params">(el, insert)</span> {</span>
+</pre></td><td class="code"><pre>Vue.effect(<span class="string">'my-effect'</span>, {
+    enter: <span class="function"><span class="keyword">function</span> <span class="params">(el, insert, timeout)</span> {</span>
         <span class="comment">// insert() will actually insert the element</span>
     },
-    leave: <span class="function"><span class="keyword">function</span> <span class="params">(el, remove)</span> {</span>
+    leave: <span class="function"><span class="keyword">function</span> <span class="params">(el, remove, timeout)</span> {</span>
         <span class="comment">// remove() will actually remove the element</span>
     }
 })
 </pre></td></tr></table></figure>
 
-<p>Then you can use it by providing the transition id to <code>v-transition</code>:</p>
+<p>The third argument, <code>timeout</code>, is a wrapped version of <code>setTimeout</code>. You should use it in place of <code>setTimeout</code> so that when an effect is cancelled, its associated timers can be cleared.</p>
+<p>Then you can use it by providing the effect id to <code>v-effect</code>:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">p</span> <span class="attribute">v-transition</span>=<span class="value">"my-transition"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">p</span> <span class="attribute">v-effect</span>=<span class="value">"my-effect"</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 <p>Next: <a href="/guide/composition.html">Composing ViewModels</a>.</p>

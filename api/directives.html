@@ -202,30 +202,25 @@
 <p>Compile this element as a child ViewModel with a registered component constructor. This can be used with <code>v-with</code> to inehrit data from the parent. For more details see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
 <h3 id="v-ref">v-ref</h3>
 <p>Only respected when used in combination with <code>v-component</code>, <code>v-with</code> or <code>v-repeat</code>. The ViewModel will be accessible in its parent&#39;s <code>$</code> object, e.g. <code>parent.$[id]</code>. When used with <code>v-repeat</code>, the value will be an Array containing the child ViewModel instances corresponding to the Array they are bound to. For examples see <a href="/guide/composition.html#accessing-child-components">Accessing Child Components</a>.</p>
-<h3 id="v-transition">v-transition</h3>
-<p>When no value is provided, Vue.js will apply CSS transition classes to this element when adding / removing this element to / from the DOM.</p>
-<p>When an id is provided, Vue.js will execute the registered enter / leave functions before the DOM operations take place.</p>
-<p>Transitions are applied when certain transition-triggering directives modifies the element, or when the ViewModel&#39;s DOM manipulation methods are called.</p>
-<p>For details, see <a href="/guide/transitions.html">Adding Transition Effects</a>.</p>
 <h3 id="v-partial">v-partial</h3>
-<p>Replace the element&#39;s innerHTML with a registered partial. Partials can be registered with <code>Vue.partial()</code> or passed in as the <code>partials</code> option. You can also use this syntax:</p>
+<p>Replace the element&#39;s innerHTML with a registered partial. Partials can be registered with <code>Vue.partial()</code> or passed inside the <code>partials</code> option. You can also use this syntax:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span>&gt;</span>&#123;&#123;&gt; my-partial&#125;&#125;<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<h3 id="v-data">v-data</h3>
-<p>Attach inline data to a child Component&#39;s <code>$data</code>. For example:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">component</span> <span class="attribute">v-data</span>=<span class="value">"msg:hello, width:100, height:60"</span>&gt;</span><span class="tag">&lt;/<span class="title">component</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<p><code>msg</code>, <code>width</code> and <code>height</code> will be mixed into <code>vm.$data</code> during compilation. This is a literal directive and is intended for simple inline data only, similar to <code>data-</code> attributes. It does not accpet nested paths or expressions.</p>
-<p>All values will be treated as strings, except all-digit values will be converted to numbers. Because values are not wrapped in quotes, you&#39;ll have to escape commas, e.g. <code>\,</code>.</p>
-<p>For data with a nested structure, you should pass an object with <code>v-with</code> from the parent VM.</p>
+<h3 id="v-effect">v-effect</h3>
+<p>Apply a registered JavaScript effect to the element. JavaScript effects can be registered with <code>Vue.effect()</code> or passed inside the <code>effects</code> option.</p>
+<p>For details, see <a href="/guide/transitions.html#javascript-functions">the guide</a>.</p>
 <h2 id="empty-directives">Empty Directives</h2>
 <blockquote>
 <p>Empty directives do not require and will ignore their attribute value.</p>
 </blockquote>
+<h3 id="v-transition">v-transition</h3>
+<p>Notify Vue.js to apply transition CSS classes to this element. The transition classes are applied when certain transition-triggering directives modifies the element, or when the ViewModel&#39;s DOM manipulation methods are called.</p>
+<p>For details, see <a href="/guide/transitions.html#css-transitions">the guide</a>.</p>
+<h2 id="v-animation">v-animation</h2>
+<p>Notify Vue.js to apply animation CSS classes to this element. The order of CSS class application is different from <code>v-transition</code>.</p>
+<p>For details, see <a href="/guide/transitions.html#css-animations">the guide</a>.</p>
 <h3 id="v-pre">v-pre</h3>
 <p>Skip compilation for this element and all its children. Skipping large amount of nodes with no directives on them can speed up compilation.</p>
 <h3 id="v-cloak">v-cloak</h3>

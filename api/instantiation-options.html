@@ -174,6 +174,34 @@ vm.aplus = <span class="number">3</span>
 vm.a <span class="comment">// 2</span>
 </pre></td></tr></table></figure>
 
+<h3 id="paramattributes">paramAttributes</h3>
+<ul>
+<li><strong>Type:</strong> <code>Array</code></li>
+</ul>
+<p>An array of attribute names to be set on the VM as initial data.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"test"</span> <span class="attribute">size</span>=<span class="value">"100"</span> <span class="attribute">message</span>=<span class="value">"hello!"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">new</span> Vue({
+    el: <span class="string">'#test'</span>,
+    paramAttributes: [<span class="string">'size'</span>, <span class="string">'message'</span>],
+    created: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        console.log(<span class="keyword">this</span>.size) <span class="comment">// 100</span>
+        console.log(<span class="keyword">this</span>.message) <span class="comment">// 'hello!'</span>
+    }
+})
+</pre></td></tr></table></figure>
+
 <h2 id="dom-element">DOM Element</h2>
 <h3 id="el">el</h3>
 <ul>

@@ -181,12 +181,12 @@ Vue.config({
 <li><strong>definition</strong> <code>Function Constructor</code> or <code>Object</code> <em>optional</em></li>
 </ul>
 <p>Register or retrieve a global component. For more details see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
-<h3 id="vue-transition-id-definition-">Vue.transition( id, definition )</h3>
+<h3 id="vue-effect-id-definition-">Vue.effect( id, definition )</h3>
 <ul>
 <li><strong>id</strong> <code>String</code></li>
 <li><strong>definition</strong> <code>Object</code> <em>optional</em></li>
 </ul>
-<p>Register or retrieve a global transition definition. For more details see <a href="/guide/transitions.html">Adding Transition Effects</a>.</p>
+<p>Register or retrieve a global JavaScript transition effect definition. For more details see <a href="/guide/transitions.html#javascript-functions">Adding Transition Effects</a>.</p>
 <h3 id="vue-partial-id-definition-">Vue.partial( id, definition )</h3>
 <ul>
 <li><strong>id</strong> <code>String</code></li>
@@ -240,7 +240,13 @@ Vue.config({
 <ul>
 <li><strong>module</strong> <code>String</code></li>
 </ul>
-<p>Get access to Vue.js&#39; internal modules. This is intended for plugin authors only.</p>
+<p>Get access to Vue.js&#39; internal modules. This is intended for plugin authors and only the following modules are exposed:</p>
+<ul>
+<li><code>utils</code></li>
+<li><code>config</code></li>
+<li><code>transition</code></li>
+<li><code>observer</code>.</li>
+</ul>
 <h3 id="vue-use-plugin-args-">Vue.use( plugin, [args...] )</h3>
 <ul>
 <li><strong>plugin</strong> <code>Object</code> or <code>Function</code></li>

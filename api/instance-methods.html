@@ -69,6 +69,9 @@
 <div class="content api with-sidebar">
     <h1>Instance Methods</h1>
     <h2 id="data-changes">Data Changes</h2>
+<blockquote>
+<p>You can observe data changes on a ViewModel. Note that all watch callbacks fire asynchronously. In addition, value changes are batched within an event loop. This means when a value changes multiple times within a single event loop, the callback will be fired only once with the latest value.</p>
+</blockquote>
 <h3 id="vm-watch-keypath-callback-">vm.$watch( keypath, callback )</h3>
 <ul>
 <li><strong>keypath</strong> <code>String</code></li>
