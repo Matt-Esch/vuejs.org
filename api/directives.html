@@ -166,18 +166,19 @@
 <p>Conditionally insert / remove the element based on the truthy-ness of the binding value.</p>
 <h3 id="v-with">v-with</h3>
 <ul>
-<li>This directive requires the value to be an Object or falsy.</li>
-<li>You cannot use expressions with this directive.</li>
+<li>This directive accepts only keypaths, no expressions.</li>
 </ul>
-<p>Compile this element as a child ViewModel, using the binding value as the <code>data</code> option. Inside the template you can directly access properties on the binding value. This can be used in combination with <code>v-component</code>.</p>
-<p>Suppose our data looks like this:</p>
+<p>Compile this element as a child ViewModel, inheriting data from the parent. You can either pass in an Object which will be used as the <code>data</code> option, or bind individual parent properties to the child with different keys. This directive can be used in combination with <code>v-component</code>.</p>
+<p>Example inheriting an object:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
 5
 6
-</pre></td><td class="code"><pre>{
+7
+</pre></td><td class="code"><pre><span class="comment">// parent data looks like this</span>
+{
     user: {
         name: <span class="string">'Foo Bar'</span>,
         email: <span class="string">'foo@bar.com'</span>
@@ -185,12 +186,24 @@
 }
 </pre></td></tr></table></figure>
 
-<p>You can simplify the template like this:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
+4
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-with</span>=<span class="value">"user"</span>&gt;</span>
+    <span class="comment">&lt;!-- you can access properties without `user.` --&gt;</span>
     {&#123;name&#125;} {&#123;email&#125;}
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>Example inehriting individual properties (using the same data):</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-with</span>=<span class="value">"myName : user.name, myEmail: user.email"</span>&gt;</span>
+    <span class="comment">&lt;!-- you can access properties with the new keys --&gt;</span>
+    {&#123;myName&#125;} {&#123;myEmail&#125;}
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 

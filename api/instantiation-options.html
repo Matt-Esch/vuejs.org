@@ -305,7 +305,19 @@ vm.a <span class="comment">// 2</span>
 <li><strong>Type:</strong> <code>Object</code></li>
 </ul>
 <p>A hash of transitions to be made available to the ViewModel. For details see <a href="/guide/transitions.html">Adding Transition Effects</a>.</p>
-<h2 id="misc">Misc</h2>
+<h2 id="others">Others</h2>
+<h3 id="parent">parent</h3>
+<ul>
+<li><strong>Type:</strong> <code>ViewModel</code></li>
+</ul>
+<p>A parent ViewModel instance. Passing in this option establishes a parent-child relationship between the newly created instance and the parent instance. This enables the same benefits with <code>v-component</code> style composition:</p>
+<ol>
+<li>The child can bind to data from the parent&#39;s scope in its template;</li>
+<li>The child can access the parent as <code>this.$parent</code>;</li>
+<li>The parent and child can communicate using the <a href="/api/instance-methods.html#cross-viewmodel-events">Event Communication Methods</a>.</li>
+<li>When the parent is destroyed, the child will be destroyed too.</li>
+</ol>
+<p>This option is useful when you need to manually manage the lifecycle of nested ViewModels for better memory control.</p>
 <h3 id="lazy">lazy</h3>
 <ul>
 <li><strong>Type:</strong> <code>Boolean</code></li>

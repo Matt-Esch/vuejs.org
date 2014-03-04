@@ -164,11 +164,13 @@
 13
 14
 15
+16
 </pre></td><td class="code"><pre>Vue.directive(<span class="string">'my-directive'</span>, {
-    bind: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    bind: <span class="function"><span class="keyword">function</span> <span class="params">(value)</span> {</span>
         <span class="comment">// do preparation work</span>
         <span class="comment">// e.g. add event listeners or expensive stuff</span>
         <span class="comment">// that needs to be run only once</span>
+        <span class="comment">// `value` is the initial value</span>
     },
     update: <span class="function"><span class="keyword">function</span> <span class="params">(value)</span> {</span>
         <span class="comment">// do something based on the updated value</span>
@@ -273,7 +275,26 @@ var demo = new Vue({
 </script>
 
 <h3 id="creating-literal-amp-empty-directives">Creating Literal &amp; Empty Directives</h3>
-<p>Since literal and empty directives do not create data bindings, they have no use for an <code>update()</code> function. So if you don&#39;t provide an <code>update()</code> function when you define a custom directive, it will be considered literal/empty and all data binding work will be skipped. The attribute value will still be parsed if present, so you can access <code>this.key</code>, <code>this.arg</code> or <code>this.expression</code> as needed.</p>
+<p>If you pass in <code>isLiteral: true</code> or <code>isEmpty: true</code> when creating a custom directive, all data-binding work will be skipped for that directive, and only <code>bind()</code> and <code>unbind()</code> will be called. In literal directives the expression will still be parsed, so you can still access information such as <code>this.expression</code>, <code>this.key</code> and <code>this.arg</code>. For empty directives, Vue.js will never parse the expression even if it exists.</p>
+<p>Example:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-literal-dir</span>=<span class="value">"foo"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>Vue.directive(<span class="string">'literal-dir'</span>, {
+    isLiteral: <span class="literal">true</span>,
+    bind: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        console.log(<span class="keyword">this</span>.expression) <span class="comment">// 'foo'</span>
+    }
+})
+</pre></td></tr></table></figure>
+
 <h3 id="creating-a-function-directive">Creating a Function Directive</h3>
 <p>Vue.js encourages the developer to separate data from behavior, so instance methods are expected to be contained in the <code>methods</code> option and not inside data objects. As a result, functions inside data objects are ignored and normal directives will not be able to bind to them.</p>
 <p>To gain access to functions inside <code>methods</code> in your custom directive, you need to pass in the <code>isFn</code> option:</p>

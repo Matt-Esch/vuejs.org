@@ -150,8 +150,8 @@ describe('UNIT: API', function () {
             var testId = 'directive-2',
                 msg = 'wowaaaa?'
             dirTest = {
-                bind: function () {
-                    this.el.setAttribute(testId + 'bind', 'bind')
+                bind: function (value) {
+                    this.el.setAttribute(testId + 'bind', value + 'bind')
                 },
                 update: function (value) {
                     this.el.setAttribute(testId + 'update', value + 'update')
@@ -167,25 +167,38 @@ describe('UNIT: API', function () {
                     data: { test: msg }
                 }),
                 el = document.querySelector('#' + testId + ' span')
-            assert.strictEqual(el.getAttribute(testId + 'bind'), 'bind', 'should have called bind()')
-            assert.strictEqual(el.getAttribute(testId + 'update'), msg + 'update', 'should have called update()')
+            assert.strictEqual(el.getAttribute(testId + 'bind'), msg + 'bind', 'should have called bind() with value')
+            assert.strictEqual(el.getAttribute(testId + 'update'), msg + 'update', 'should have called update() with value')
             vm.$destroy() // assuming this works
             assert.notOk(el.getAttribute(testId + 'bind'), 'should have called unbind()')
         })
 
-        it('should not bind directive if no update() is provided', function () {
-            var called = false
+        it('should not create binding for literal or empty directives', function () {
+            var literalCalled = false,
+                emptyCalled = false
             Vue.directive('test-literal', {
+                isLiteral: true,
                 bind: function () {
-                    called = true
+                    literalCalled = true
                     assert.strictEqual(this.expression, 'hihi')
                     assert.notOk(this.binding)
-                }
+                },
+                update: function () {}
+            })
+            Vue.directive('test-empty', {
+                isEmpty: true,
+                bind: function () {
+                    emptyCalled = true
+                    assert.notOk(this.expression)
+                    assert.notOk(this.binding)
+                },
+                update: function () {}
             })
             new Vue({
-                template: '<div v-test-literal="hihi"></div>'
+                template: '<div v-test-literal="hihi"></div><div v-test-empty="123"></div>'
             })
-            assert.ok(called)
+            assert.ok(literalCalled)
+            assert.ok(emptyCalled)
         })
 
         it('should return directive object/fn if only one arg is given', function () {
@@ -621,6 +634,54 @@ describe('UNIT: API', function () {
 
             })
 
+            describe('parent', function () {
+
+                var parent, child
+                
+                it('should allow child to access parent bindings', function () {
+
+                    parent = new Vue({
+                        data: {
+                            test: 'from parent'
+                        }
+                    })
+
+                    child = new Vue({
+                        parent: parent,
+                        template: '{{test}}'
+                    })
+
+                    assert.strictEqual(child.$el.textContent, 'from parent')
+
+                })
+
+                it('should allow event communication between parent and child', function () {
+                    
+                    var dispatched = false,
+                        broadcasted = false
+                    parent.$on('dispatch', function () {
+                        dispatched = true
+                    })
+                    child.$on('broadcast', function () {
+                        broadcasted = true
+                    })
+                    parent.$broadcast('broadcast')
+                    child.$dispatch('dispatch')
+
+                    assert.ok(dispatched)
+                    assert.ok(broadcasted)
+
+                })
+
+                it('should destroy the child when parent is destroyed', function () {
+                    
+                    parent.$destroy()
+                    assert.ok(child.$compiler.destroyed)
+
+                })
+
+            })
+
             describe('directives', function () {
                 
                 it('should allow the VM to use private directives', function (done) {
@@ -790,8 +851,8 @@ describe('UNIT: API', function () {
                     it('should be called before compile', function () {
                         
                         var called = false,
-                            Test = Vue.extend({ created: function (options) {
-                                assert.ok(options.ok)
+                            Test = Vue.extend({ created: function () {
+                                assert.ok(this.$options.ok)
                                 called = true
                             }})
                         new Test({ ok: true })
@@ -803,10 +864,10 @@ describe('UNIT: API', function () {
 
                 describe('ready', function () {
 
-                    it('should be called after compile with options', function () {
+                    it('should be called after compile', function () {
                         var called = false,
-                            hook = function (options) {
-                                assert.ok(options.ok)
+                            hook = function () {
+                                assert.ok(this.$options.ok)
                                 assert.notOk(this.$compiler.init)
                                 called = true
                             },

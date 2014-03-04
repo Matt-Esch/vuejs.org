@@ -83,15 +83,94 @@
 <p><img src="http://component.io/boot/images/logo.png"></p>
 <p>Vue.js is built with <a href="https://github.com/component/component" target="_blank">Component</a>, a front-end package manager and build tool. With Component you can write your browser code in the format of CommonJS modules (the same format Node.js uses), and publish packages simply by pushing them to public GitHub repositories. This helps greatly with both code modularization and reusability. For a boilerplate of using Vue.js with Component, see the <a href="https://github.com/vuejs/vue-component-example" target="_blank">vue-component-example</a>.</p>
 <p>There are already <a href="https://github.com/component/component/wiki/Components" target="_blank">a great number of public components</a> available that deal with common problems in front-end applications. For a larger scale application, you can use Vue.js as the interface layer and fill in the missing pieces with other components.</p>
+<p>Alternatively, <a href="http://browserify.org/" target="_blank">Browserify</a> is another excellent CommonJS based build system for browser JavaScript. Instead of GitHub repos, Browserify leverages NPM as its package manager and also has a thriving community.</p>
 <h2 id="modularization">Modularization</h2>
 <p>Component as a built tool not only deals with JavaScript; it can also build CSS, templates and other assets. With builder hooks it can also pre-process files written in non-native formats, e.g. CoffeeScript, SASS and Stylus. Therefore it is possible to deliver highly self-contained components that encapsulates template structure, JavaScript logic and CSS presentation at the same time. A simple example can be found <a href="https://github.com/vuejs/vue-component-example/tree/master/src/components/a" target="_blank">here</a>.</p>
+<p>Similar modularization can be achieved in Browserify too, with transform plugins such as <a href="https://github.com/bclinkinbeard/partialify" target="_blank">partialify</a>. A simple setup example can be found <a href="https://github.com/vuejs/vue-browserify-example" target="_blank">here</a>.</p>
 <h2 id="routing">Routing</h2>
 <p>You can implement some rudimentary routing logic by manually updating a state object on hashchange. An example can be found <a href="https://github.com/yyx990803/vue/blob/master/test/functional/fixtures/routing.html" target="_blank">here</a>.</p>
-<p>It is also possible to implement something more robust with the help of routing components such as <a href="https://github.com/visionmedia/page.js" target="_blank">page.js</a>. There is plan to provide a vue-router component that integrates with Vue.js for easier routing and deep linking.</p>
+<p>It is also possible to implement something more robust with the help of routing components such as <a href="https://github.com/visionmedia/page.js" target="_blank">Page.js</a> or <a href="https://github.com/flatiron/director" target="_blank">Director</a>. There is plan to provide a vue-router component that integrates with Vue.js for easier routing and deep linking.</p>
 <h2 id="communication-with-server">Communication with Server</h2>
-<p>All Vue.js ViewModels and their raw <code>$data</code> can be serialized with <code>JSON.stringify()</code> with no additional effort. You can use any Ajax component you like, for example <a href="https://github.com/visionmedia/superagent" target="_blank">superagent</a>. It also plays nicely with no-backend services such as Firebase. In addition there is plan to provide a vue-resource component that resembles Angular&#39;s <code>$resource</code>, to make interfacing with a REST API easier.</p>
+<p>All Vue.js ViewModels and their raw <code>$data</code> can be serialized with <code>JSON.stringify()</code> with no additional effort. You can use any Ajax component you like, for example <a href="https://github.com/visionmedia/superagent" target="_blank">SuperAgent</a>. It also plays nicely with no-backend services such as Firebase. In addition there is plan to provide a vue-resource component that resembles Angular&#39;s <code>$resource</code>, to make interfacing with a REST API easier.</p>
 <h2 id="unit-testing">Unit Testing</h2>
 <p>By using Component, Vue.js entities (ViewModel constructors, directives, filters) within a large project can be split into separate CommonJS modules. When a Component-based project is built without the <code>standalone</code> flag, it will expose its <code>require()</code> method, granting access to all these internal modules. This makes it quite easy to write browser unit tests - just include the test build and require the module you want to test.</p>
+<p>The best practice is to export raw options / functions inside modules. Consider this example:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="comment">// my-component.js</span>
+module.exports = {
+    created: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        <span class="keyword">this</span>.message = <span class="string">'hello!'</span>
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>You can use that file in your entry module like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="comment">// main.js</span>
+<span class="keyword">var</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)
+
+<span class="keyword">var</span> app = <span class="keyword">new</span> Vue({
+    el: <span class="string">'#app'</span>,
+    data: { <span class="comment">/* ... */</span> },
+    components: {
+        <span class="string">'my-component'</span>: <span class="built_in">require</span>(<span class="string">'./my-component'</span>)
+    }
+})
+</pre></td></tr></table></figure>
+
+<p>And you can test that module like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="comment">// Some Mocha tests</span>
+<span class="comment">// using a non-standalone build of the project</span>
+describe(<span class="string">'my-component'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    
+    <span class="comment">// require exposed internal module</span>
+    <span class="keyword">var</span> myComponent = <span class="built_in">require</span>(<span class="string">'my-project/src/my-component'</span>)
+
+    it(<span class="string">'should have a created hook'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        assert.equal(<span class="keyword">typeof</span> myComponent.created, <span class="string">'function'</span>)
+    })
+
+    it(<span class="string">'should set message in the created hook'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        <span class="keyword">var</span> mock = {}
+        myComponent.created.call(mock)
+        assert.equal(mock.message, <span class="string">'hello!'</span>)
+    })
+
+})
+</pre></td></tr></table></figure>
+
 <p class="tip">Since Vue.js bindings update asynchronously, you should use <code>Vue.nextTick()</code> when asserting DOM updates after changing the data.</p>
 </div>
         

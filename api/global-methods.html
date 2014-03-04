@@ -136,7 +136,7 @@ Vue.config({
 })
 </pre></td></tr></table></figure>
 
-<p>Here are the options with their default values:</p>
+<p>Here are all the options with their default values:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -149,17 +149,31 @@ Vue.config({
 10
 11
 12
+13
+14
+15
+16
+17
+18
+19
 </pre></td><td class="code"><pre>{
     <span class="comment">// prefix for directives</span>
     prefix: <span class="string">'v'</span>,
+
     <span class="comment">// log debug info</span>
     debug: <span class="literal">false</span>,
-    <span class="comment">// supress warnings</span>
+
+    <span class="comment">// suppress warnings</span>
     silent: <span class="literal">false</span>,
-    <span class="comment">// CSS class attached when entering view</span>
+
+    <span class="comment">// CSS class attached for entering transition</span>
     enterClass: <span class="string">'v-enter'</span>,
-    <span class="comment">// CSS class attached when leaving view</span>
-    leaveClass: <span class="string">'v-leave'</span>
+
+    <span class="comment">// CSS class attached for leaving transition</span>
+    leaveClass: <span class="string">'v-leave'</span>,
+
+    <span class="comment">// Interpolate mustache bindings</span>
+    interpolate: <span class="literal">true</span>
 }
 </pre></td></tr></table></figure>
 

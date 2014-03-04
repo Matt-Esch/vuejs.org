@@ -79,6 +79,25 @@
 <li><strong>Type:</strong> <code>Object</code></li>
 </ul>
 <p>The data object that the ViewModel is observing. You can swap it with a new object. The ViewModel proxies access to the properties on its data object.</p>
+<h3 id="vm-options">vm.$options</h3>
+<ul>
+<li><strong>Type:</strong> <code>Object</code></li>
+</ul>
+<p>The instantiation options used for the current ViewModel. This is useful when you want to include custom properties in the options:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">new</span> Vue({
+    customOption: <span class="string">'foo'</span>,
+    created: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        console.log(<span class="keyword">this</span>.$options.customOption) <span class="comment">// 'foo'</span>
+    }
+})
+</pre></td></tr></table></figure>
+
 <h3 id="vm-">vm.$</h3>
 <ul>
 <li><strong>Type:</strong> <code>Object</code></li>
