@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = "api"
@@ -68,7 +68,7 @@
 
 <div class="content api with-sidebar">
     <h1>Instance Methods</h1>
-    <h2 id="data-changes">Data Changes</h2>
+    <h2 id="data">Data</h2>
 <blockquote>
 <p>You can observe data changes on a ViewModel. Note that all watch callbacks fire asynchronously. In addition, value changes are batched within an event loop. This means when a value changes multiple times within a single event loop, the callback will be fired only once with the latest value.</p>
 </blockquote>
@@ -84,6 +84,17 @@
 <li><strong>callback</strong> <code>Function</code> <em>optional</em></li>
 </ul>
 <p>Stop watching the given keypath. If a callback is given only that callback gets unwatched.</p>
+<h3 id="vm-get-keypath-">vm.$get( keypath )</h3>
+<ul>
+<li><strong>keypath</strong> <code>String</code></li>
+</ul>
+<p>Retrieve a data value from the vm given a keypath. If the first segment of the path is not found on the current vm, it will recursively go upwards the parent chain until it reaches the root, so this can be useful for accessing a property that exist on the parent chain but with unknown distance. Non-existent paths always return <code>undefined</code>.</p>
+<h3 id="vm-set-keypath-value-">vm.$set( keypath, value )</h3>
+<ul>
+<li><strong>keypath</strong> <code>String</code></li>
+<li><strong>value</strong> <code>*</code></li>
+</ul>
+<p>Set a data value on the vm given a keypath. If the path doesn&#39;t exist it will be created.</p>
 <h2 id="cross-viewmodel-events">Cross-ViewModel Events</h2>
 <blockquote>
 <p>Each vm is also an event emitter. When you have multiple nested ViewModels, you can use the event system to communicate between them.</p>
@@ -147,7 +158,7 @@
 <p>Remove the vm&#39;s <code>$el</code> from the DOM.</p>
 <h2 id="misc">Misc</h2>
 <h3 id="vm-destroy-">vm.$destroy()</h3>
-<p>Completely destroy a vm. Clean up its connections with other existing vms, unbind all its directives and remove its <code>$el</code> from the DOM.</p>
+<p>Completely destroy a vm. Clean up its connections with other existing vms, unbind all its directives and remove its <code>$el</code> from the DOM. Also, all <code>$on</code> and <code>$watch</code> listeners will be automatically removed.</p>
 
 </div>
         

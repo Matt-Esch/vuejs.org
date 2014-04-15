@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = ""
@@ -46,21 +46,22 @@
     <h1>Performance Comparisons</h1>
     <h2 id="todomvc-benchmark">TodoMVC Benchmark</h2>
 <blockquote>
-<p><em>Last Updated: 2014-03-04</em></p>
+<p><em>Last Updated: 2014-03-23</em></p>
 <p>This is a benchmark found in the <a href="https://github.com/WebKit/webkit/tree/master/PerformanceTests/DoYouEvenBench" target="_blank">webkit performance tests</a> based on the <a href="http://todomvc.com/" target="_blank">TodoMVC</a> project. For each framework implementation, add 100 todos, toggle them one by one, then delete them one by one. In addition to the most popular MV* libraries, I also included <a href="https://github.com/swannodette/om" target="_blank">Om</a> (a ClojureScript interface on top of React which boasts of performance) and <a href="http://www.ractivejs.org/" target="_blank">Ractive</a> (very similar in terms of use case and API).</p>
 <p><strong>Disclaimer</strong>: the original benchmark was written to compare the performance of different browsers rather than that of the frameworks. The results here are merely for technical reference and do not reflect the user experience in real products.</p>
 </blockquote>
 <h3 id="compared-libraries">Compared libraries</h3>
 <ul>
-<li>Vue (v0.9.3)</li>
-<li>Backbone (v1.1.2) + jQuery (v2.0.3)</li>
-<li>Knockout (v3.0.0)</li>
-<li>Ember (v1.4.0 production) + Handlebars (v1.3.0) + jQuery (v2.1.0)</li>
+<li>Vue (v0.10.0)</li>
+<li>Backbone (v1.1.2) + jQuery (v2.1.0)</li>
+<li>Knockout (v3.1.0)</li>
+<li>Ember (v1.4.0) + Handlebars (v1.3.0) + jQuery (v2.1.0)</li>
 <li>Angular (v1.2.14)</li>
-<li>React (v0.9.0)</li>
+<li>React (v0.10.0)</li>
 <li>Om (version unknown) + React (v0.8.0)</li>
 <li>Ractive (v0.3.9)</li>
 </ul>
+<p>All libraries are using minified production build.</p>
 <h3 id="results">Results</h3>
 <p>10 runs average, faster is better. Data collected on an <span id="_machine"></span> with a <span id="_cpu"></span> Processor under <span id="_os"></span>.</p>
 <ul id="benchmark-results"></ul>

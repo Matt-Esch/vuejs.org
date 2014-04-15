@@ -1,18 +1,21 @@
 .gutter pre {
-  color: #bbb;
+  color: #999;
 }
 pre {
-  color: #34495e;
+  color: #525252;
 }
 pre .function .keyword,
 pre .constant {
-  color: #27ae60;
+  color: #0092db;
+}
+pre .keyword,
+pre .attribute {
+  color: #e96900;
 }
 pre .number,
 pre .literal {
   color: #ae81ff;
 }
-pre .keyword,
 pre .tag,
 pre .tag .title,
 pre .change,
@@ -22,19 +25,16 @@ pre .lisp .title,
 pre .clojure .built_in,
 pre .nginx .title,
 pre .tex .special {
-  color: #f95555;
+  color: #2973b7;
 }
 pre .class .title {
   color: #fff;
-}
-pre .attribute {
-  color: #42b983;
 }
 pre .symbol,
 pre .symbol .string,
 pre .value,
 pre .regexp {
-  color: #bf79db;
+  color: #42b983;
 }
 pre .title {
   color: #a6e22e;
@@ -63,7 +63,7 @@ pre .apache .tag,
 pre .apache .cbracket,
 pre .tex .command,
 pre .prompt {
-  color: #f39c12;
+  color: #42b983;
 }
 pre .comment,
 pre .java .annotation,
@@ -75,7 +75,7 @@ pre .deletion,
 pre .shebang,
 pre .apache .sqbracket,
 pre .tex .formula {
-  color: #bbb;
+  color: #b3b3b3;
 }
 pre .coffeescript .javascript,
 pre .javascript .xml,
@@ -89,6 +89,7 @@ pre .xml .cdata {
 body {
   font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   color: #34495e;
   margin: 0;
 }
@@ -109,12 +110,14 @@ strong {
 }
 code,
 pre {
-  font-family: Monaco, courier, monospace;
-  font-size: 0.75em;
+  font-family: 'Inconsolata', Monaco, courier, monospace;
+  font-size: 0.9em;
   background-color: #f9f9f9;
+  -webkit-font-smoothing: initial;
+  -moz-osx-font-smoothing: initial;
 }
 code {
-  color: #7f8c8d;
+  color: #525252;
   padding: 2px 6px;
   margin: 0 2px;
   border: 1px solid #e6e6e6;
@@ -147,8 +150,8 @@ a.button:hover {
   padding: 0;
   background-color: #f9f9f9;
   padding: 0.8em 0.8em 0.4em;
-  border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0,0,0,0.125);
+  line-height: 1.1em;
 }
 .highlight table,
 .highlight tr,
@@ -165,14 +168,8 @@ a.button:hover {
 .highlight .gutter {
   width: 1.5em;
 }
-.highlight .gutter pre {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
 .highlight .code pre {
   padding-left: 0.5em;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
 }
 .highlight.html .code:after,
 .highlight.js .code:after,
@@ -187,8 +184,6 @@ a.button:hover {
   padding: 5px 10px 0;
   line-height: 15px;
   height: 15px;
-  border-top-right-radius: 0px;
-  border-top-left-radius: 0px;
   font-weight: 600;
 }
 .highlight.html .code:after {
@@ -325,7 +320,7 @@ body {
 }
 #example .sign {
   display: inline-block;
-  height: 9em;
+  height: 10em;
   line-height: 9em;
   padding: 0 0.5em;
   font-weight: 600;
@@ -335,7 +330,7 @@ body {
   text-align: left;
   display: inline-block;
   width: 28%;
-  height: 9em;
+  height: 10em;
   vertical-align: top;
   background-color: #f9f9f9;
   border-radius: 2px;

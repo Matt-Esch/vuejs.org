@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = "guide"
@@ -66,7 +66,7 @@
         
             <li><a href="/guide/transitions.html" class="sidebar-link">Adding Transition Effects</a></li>
         
-            <li><a href="/guide/composition.html" class="sidebar-link">Composing ViewModels</a></li>
+            <li><a href="/guide/composition.html" class="sidebar-link">Composing Components</a></li>
         
             <li><a href="/guide/application.html" class="sidebar-link">Building Larger Apps</a></li>
         
@@ -96,7 +96,7 @@
 </pre></td></tr></table></figure>
 
 <p>Here we are using a computed expression instead of a single property key. Vue.js automatically tracks the properties an expression depends on and refreshes the directive whenever a dependency changes. Thanks to async batch updates, even when multiple dependencies change, an expression will only be updated once every event loop.</p>
-<p>You should use expressions wisely and avoid putting too much logic in your templates, especially statements with side effects (with the exception of event listener expressions). For bindings that require more complicated operations, use <a href="/guide/computed.html">Computed Properties</a> instead.</p>
+<p>You should use expressions wisely and avoid putting too much logic in your templates, especially statements with side effects (with the exception of event listener expressions). To discourage the overuse logic inside templates, Vue.js inline expressions are limited to <strong>one statement only</strong>. For bindings that require more complicated operations, use <a href="/guide/computed.html">Computed Properties</a> instead.</p>
 <p class="tip">For security reasons, in inline expressions you can only access properties and methods present on the current context ViewModel and its parents.</p>
 
 <h2 id="argument">Argument</h2>
@@ -129,7 +129,14 @@
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<p>Here <code>&quot;my-component&quot;</code> is not a data property - it&#39;s a string ID that Vue.js uses to lookup the corresponding Component constructor. A full list of literal directives can be found in the <a href="/api/directives.html#literal-directives">API reference</a>.</p>
+<p>Here <code>&quot;my-component&quot;</code> is not a data property - it&#39;s a string ID that Vue.js uses to lookup the corresponding Component constructor.</p>
+<p>Since Vue.js 0.10, you can also use mustache expressions inside literal directives. This allows you to dynamically resolve the type of component you want to use:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"{&#123; isOwner ? 'owner-panel' : 'guest-panel' &#125;}"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>However, note that mustache expressions inside literal directives are evaluated <strong>only once</strong>. After the directive has been compiled, it will no longer react to value changes. To dynamically instantiate different components at run time, use the <a href="/api/directives.html#v-view">v-view</a> directive.</p>
+<p>A full list of literal directives can be found in the <a href="/api/directives.html#literal-directives">API reference</a>.</p>
 <h2 id="empty-directives">Empty Directives</h2>
 <p>Some directives don&#39;t even expect an attribute value - they simply do something to the element once and only once. For example the <code>v-pre</code> directive:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1

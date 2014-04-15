@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = "guide"
@@ -66,7 +66,7 @@
         
             <li><a href="/guide/transitions.html" class="sidebar-link">Adding Transition Effects</a></li>
         
-            <li><a href="/guide/composition.html" class="sidebar-link">Composing ViewModels</a></li>
+            <li><a href="/guide/composition.html" class="sidebar-link">Composing Components</a></li>
         
             <li><a href="/guide/application.html" class="sidebar-link current">Building Larger Apps</a></li>
         
@@ -88,10 +88,41 @@
 <p>Component as a built tool not only deals with JavaScript; it can also build CSS, templates and other assets. With builder hooks it can also pre-process files written in non-native formats, e.g. CoffeeScript, SASS and Stylus. Therefore it is possible to deliver highly self-contained components that encapsulates template structure, JavaScript logic and CSS presentation at the same time. A simple example can be found <a href="https://github.com/vuejs/vue-component-example/tree/master/src/components/a" target="_blank">here</a>.</p>
 <p>Similar modularization can be achieved in Browserify too, with transform plugins such as <a href="https://github.com/bclinkinbeard/partialify" target="_blank">partialify</a>. A simple setup example can be found <a href="https://github.com/vuejs/vue-browserify-example" target="_blank">here</a>.</p>
 <h2 id="routing">Routing</h2>
-<p>You can implement some rudimentary routing logic by manually updating a state object on hashchange. An example can be found <a href="https://github.com/yyx990803/vue/blob/master/test/functional/fixtures/routing.html" target="_blank">here</a>.</p>
-<p>It is also possible to implement something more robust with the help of routing components such as <a href="https://github.com/visionmedia/page.js" target="_blank">Page.js</a> or <a href="https://github.com/flatiron/director" target="_blank">Director</a>. There is plan to provide a vue-router component that integrates with Vue.js for easier routing and deep linking.</p>
+<p>You can implement some rudimentary routing logic by manually listening on hashchange and utilizing the <code>v-view</code> direcitve. The <code>v-view</code> directive is essentially a dynamic component loader: it binds to a string value and creates a new VM instance using that string as the Component ID (and destroys the old VM if it exists). Example:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"app"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-view</span>=<span class="value">"currentView"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre>Vue.component(<span class="string">'home'</span>, { <span class="comment">/* ... */</span> })
+Vue.component(<span class="string">'page1'</span>, { <span class="comment">/* ... */</span> })
+
+<span class="keyword">var</span> app = <span class="keyword">new</span> Vue({
+    el: <span class="string">'#app'</span>,
+    data: {
+        currentView: <span class="string">'home'</span>
+    }
+})
+</pre></td></tr></table></figure>
+
+<p>The <code>home</code> component will be rendered in place of <code>v-view</code>. When <code>currentView</code>&#39;s value changes to <code>page1</code>, the existing <code>home</code> component will be destroyed and replaced by the new <code>page1</code> component. The full, more detailed example can be found <a href="https://github.com/yyx990803/vue/blob/master/test/functional/fixtures/routing.html" target="_blank">here</a>.</p>
+<p class="tip"><code>v-view</code> will replace the element it&#39;s bound to with the new instantiated VM&#39;s element, so avoid using it on your root element.</p>
+
+<p>With <code>v-view</code> it&#39;s very easy to leverage standalone routing libraries such as <a href="https://github.com/visionmedia/page.js" target="_blank">Page.js</a> and <a href="https://github.com/flatiron/director" target="_blank">Director</a>. There is plan to provide a vue-router component that integrates with Vue.js for easier routing and deep linking.</p>
 <h2 id="communication-with-server">Communication with Server</h2>
-<p>All Vue.js ViewModels and their raw <code>$data</code> can be serialized with <code>JSON.stringify()</code> with no additional effort. You can use any Ajax component you like, for example <a href="https://github.com/visionmedia/superagent" target="_blank">SuperAgent</a>. It also plays nicely with no-backend services such as Firebase. In addition there is plan to provide a vue-resource component that resembles Angular&#39;s <code>$resource</code>, to make interfacing with a REST API easier.</p>
+<p>All Vue.js ViewModels can have their raw <code>$data</code> directly serialized with <code>JSON.stringify()</code> with no additional effort. You can use any Ajax component you like, for example <a href="https://github.com/visionmedia/superagent" target="_blank">SuperAgent</a>. It also plays nicely with no-backend services such as Firebase. In addition there is plan to provide a vue-resource component that resembles Angular&#39;s <code>$resource</code>, to make interfacing with a REST API easier.</p>
 <h2 id="unit-testing">Unit Testing</h2>
 <p>By using Component, Vue.js entities (ViewModel constructors, directives, filters) within a large project can be split into separate CommonJS modules. When a Component-based project is built without the <code>standalone</code> flag, it will expose its <code>require()</code> method, granting access to all these internal modules. This makes it quite easy to write browser unit tests - just include the test build and require the module you want to test.</p>
 <p>The best practice is to export raw options / functions inside modules. Consider this example:</p>

@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = "guide"
@@ -66,7 +66,7 @@
         
             <li><a href="/guide/transitions.html" class="sidebar-link">Adding Transition Effects</a></li>
         
-            <li><a href="/guide/composition.html" class="sidebar-link">Composing ViewModels</a></li>
+            <li><a href="/guide/composition.html" class="sidebar-link">Composing Components</a></li>
         
             <li><a href="/guide/application.html" class="sidebar-link">Building Larger Apps</a></li>
         
@@ -83,9 +83,9 @@
 </blockquote>
 <h2 id="standalone">Standalone</h2>
 <p>Simply download and include with a script tag. <code>Vue</code> will be registered as a global variable.</p>
-<p><a class="button" href="https://raw.github.com/yyx990803/vue/v0.9.3/dist/vue.js" download target="_blank">Development Version</a><br><span class="light">110.35kb, plenty of comments</span></p>
-<p><a class="button" href="https://raw.github.com/yyx990803/vue/v0.9.3/dist/vue.min.js" download target="_blank">Production Version</a><br><span class="light">37.74kb minified / 13kb gzipped</span></p>
-<p>Also available on <a href="//cdnjs.cloudflare.com/ajax/libs/vue/0.9.3/vue.min.js">cdnjs</a> (takes 4 hours to sync so the latest version might not be available yet).</p>
+<p><a class="button" href="https://raw.github.com/yyx990803/vue/v0.10.3/dist/vue.js" download target="_blank">Development Version</a><br><span class="light">119.38kb, plenty of comments and debug/warning messages.</span></p>
+<p><a class="button" href="https://raw.github.com/yyx990803/vue/v0.10.3/dist/vue.min.js" download target="_blank">Production Version</a><br><span class="light">39.89kb minified / 13.58kb gzipped</span></p>
+<p>Also available on <a href="//cdnjs.cloudflare.com/ajax/libs/vue/0.10.3/vue.min.js">cdnjs</a> (takes some time to sync so the latest version might not be available yet).</p>
 <h2 id="component">Component</h2>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre>$ component install yyx990803/vue
@@ -93,6 +93,11 @@
 
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="keyword">var</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)
+</pre></td></tr></table></figure>
+
+<p>For edge version (unstable branch, use at your own risk!):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>$ component install yyx990803/vue@dev
 </pre></td></tr></table></figure>
 
 <h2 id="browserify">Browserify</h2>
@@ -104,6 +109,13 @@
 </pre></td><td class="code"><pre><span class="keyword">var</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)
 </pre></td></tr></table></figure>
 
+<p>For edge version:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>$ npm install yyx990803/vue<span class="comment">#dev</span>
+</pre></td></tr></table></figure>
+
+<p class="tip">The built version in <code>dist/</code> doesn&#39;t work with Browserify because it assumes it&#39;s loaded in global scope and comes with its own <code>require</code> mechanism. Always directly use source version when using Vue with Browserify.</p>
+
 <h2 id="bower">Bower</h2>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre>$ bower install vue
@@ -113,8 +125,8 @@
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"bower_components/vue/dist/vue.js"</span>&gt;</span><span class="javascript"></span>
 </pre></td></tr></table></figure>
 
-<h2 id="module-loaders">Module Loaders</h2>
-<p>e.g. RequireJS, SeaJS: Built versions in <code>/dist</code> or installed via Bower is wrapped with UMD so it can be used directly as a CommonJS or AMD module.</p>
+<h2 id="amd-module-loaders">AMD Module Loaders</h2>
+<p>e.g. RequireJS, SeaJS: Built versions in <code>/dist</code> or installed via Bower is wrapped with UMD so it can be used directly as an AMD module.</p>
 <h2 id="ready-">Ready?</h2>
 <p><a href="/guide/">Let&#39;s Get Started</a>.</p>
 

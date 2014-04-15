@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = "api"
@@ -70,13 +70,16 @@
     <h1>Class: Vue</h1>
     <p>The <code>Vue</code> Class is the core of vue.js. It is a constructor that allows you to create ViewModel instances. Creating a ViewModel instance is straightforward:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(options)
+</pre></td><td class="code"><pre><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue({ <span class="comment">/* options */</span> })
 </pre></td></tr></table></figure>
 
-<p>When you instantiate a ViewModel instance, it compiles the DOM element it is assigned to and creates data bindings that keep the DOM and the data in sync. It takes an option object that can include options about the DOM element, data object, mixin methods, lifecycle hooks and more. See the full list of <a href="/api/instantiation-options.html">Instantitation Options</a>.</p>
+<p>When you instantiate a ViewModel instance, it compiles the DOM element it is assigned to and creates data bindings that keep the DOM and the data in sync. It takes an option object that can include options about the DOM element, data object, mixin methods, lifecycle callbacks and more. See the full list of <a href="/api/instantiation-options.html">Instantitation Options</a>.</p>
+<p>During the compilation phase, Vue.js walks through the DOM and compiles the directives it runs into. Once compiled, these DOM nodes are now said to be managed by the ViewModel. A DOM node can only be managed by one ViewModel, and once compiled, it should not be compiled again because the original binding information would have been lost. For templates, Vue.js caches them as un-compiled DocumentFragments and simply does <code>cloneNode(true)</code> when reusing them, which is highly efficient.</p>
 <p>Each ViewModel instance has an associated DOM element <code>$el</code>, which is essentially the V in MVVM. It also has an associated JavaScript object <code>$data</code>, which is essentially the M in MVVM. Changing the M results in updates in the V. For two-way bindings, inputs in the V results in changes in the M. For more details check out <a href="/api/instance-properties.html">Instance Properties</a>.</p>
+<p>ViewModel instances proxies access to their <code>$data</code> objects, so if you have <code>vm.$data.msg</code> you can also access it as <code>vm.msg</code>. This might look a bit magical, but is totally optional. You can stick to <code>vm.$data.msg</code> for more explicit data access. However it is still important to notice the difference between <code>vm</code> and <code>vm.$data</code>, since the former cannot be observed by other ViewModels as data.</p>
+<p>It&#39;s also worth noting that data objects do not necessarily belong to a single ViewModel - multiple ViewModels can observe the same piece of data, whether directly as <code>$data</code> or nested under it. This is useful when multiple components need to react to a shared global state object.</p>
 <p>Each ViewModel instance also has a number of <a href="/api/instance-methods.html">Instance Methods</a> which covers data observation, event communication and dom manipulation.</p>
-<p><code>Vue</code> also holds several <a href="/api/global-methods.html">Global Methods</a>, which allow you to extend the <code>Vue</code> class, configure global settings and register global custom assets such as components, directives, filters and more.</p>
+<p>Finally, the <code>Vue</code> constructor itself also holds several <a href="/api/global-methods.html">Global Methods</a>, which allow you to extend the <code>Vue</code> class, configure global settings and register global custom assets such as components, directives, filters and more.</p>
 
 </div>
         

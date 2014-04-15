@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = "guide"
@@ -66,7 +66,7 @@
         
             <li><a href="/guide/transitions.html" class="sidebar-link">Adding Transition Effects</a></li>
         
-            <li><a href="/guide/composition.html" class="sidebar-link">Composing ViewModels</a></li>
+            <li><a href="/guide/composition.html" class="sidebar-link">Composing Components</a></li>
         
             <li><a href="/guide/application.html" class="sidebar-link">Building Larger Apps</a></li>
         
@@ -88,7 +88,7 @@
 <h3 id="viewmodel">ViewModel</h3>
 <p>An object that syncs the Model and the View. In Vue.js, ViewModels are instantiated with the <code>Vue</code> constructor or its sub-classes:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(options)
+</pre></td><td class="code"><pre><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue({ <span class="comment">/* options */</span> })
 </pre></td></tr></table></figure>
 
 <p>This is the primary object that you will be interacting with as a developer when using Vue.js. For more details see <a href="/api/">Class: Vue</a>.</p>
@@ -105,7 +105,9 @@
 </pre></td><td class="code"><pre>vm.$data <span class="comment">// The Model</span>
 </pre></td></tr></table></figure>
 
-<p>In Vue.js, models are simply plain JavaScript objects, or <strong>data objects</strong>. You can manipulate their properties and ViewModels that are observing them will be notified of the changes. Vue.js converts the properties on data objects into ES5 getter/setters, which allows direct manipulation without the need for dirty checking. For technical details see <a href="/api/instantiation-options.html#data">Instantiation Options: data</a>.</p>
+<p>In Vue.js, models are simply plain JavaScript objects, or <strong>data objects</strong>. You can manipulate their properties and ViewModels that are observing them will be notified of the changes. Vue.js converts the properties on data objects into ES5 getter/setters, which allows direct manipulation without the need for dirty checking.</p>
+<p>The data objects are mutated in place, so modifying it by reference has the same effects as modifying <code>vm.$data</code>. This also makes it easy for multiple ViewModel instances to observe the same piece of data.</p>
+<p>For technical details see <a href="/api/instantiation-options.html#data">Instantiation Options: data</a>.</p>
 <h3 id="directives">Directives</h3>
 <p>Prefixed HTML attributes that tell Vue.js to do something about a DOM element.</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
@@ -135,7 +137,7 @@
 
 <p>Now before the div&#39;s textContent is updated, the <code>message</code> value will first be passed through the <code>capitalize</code> function. For more details see <a href="/guide/filters.html">Filters in Depth</a>.</p>
 <h3 id="components">Components</h3>
-<p>In Vue.js, a component is simply a ViewModel constructor registered with an ID using <code>Vue.component(ID, constructor)</code>. By having an associated ID, they can be declaratively reused in other ViewModel&#39;s templates with the <code>v-component</code> directive. By breaking an application into smaller components, the result is a highly decoupled and composable codebase. For more details, see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
+<p>In Vue.js, a component is simply a ViewModel constructor registered with an ID using <code>Vue.component(ID, constructor)</code>. By having an associated ID, they can be nested in other ViewModel&#39;s templates with the <code>v-component</code> directive. This simple mechanism enables declarative reuse and composition of ViewModels in a fashion similar to <a href="http://www.w3.org/TR/components-intro/" target="_blank">Web Components</a>, without the need for latest browsers or heavy polyfills. By breaking an application into smaller components, the result is a highly decoupled and maintainable codebase. For more details, see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
 <h2 id="a-quick-example">A Quick Example</h2>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
@@ -148,15 +150,13 @@
 9
 10
 11
-12
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"demo"</span>&gt;</span>
     <span class="tag">&lt;<span class="title">h1</span>&gt;</span>&#123;&#123;title | uppercase&#125;&#125;<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
     <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
         <span class="tag">&lt;<span class="title">li
 </span>            <span class="attribute">v-repeat</span>=<span class="value">"todos"</span>
             <span class="attribute">v-on</span>=<span class="value">"click: done = !done"</span>
-            <span class="attribute">class</span>=<span class="value">"&#123;&#123;done ? 'done' : ''&#125;&#125;"</span>
-        &gt;</span>
+            <span class="attribute">class</span>=<span class="value">"&#123;&#123;done ? 'done' : ''&#125;&#125;"</span>&gt;</span>
             &#123;&#123;content&#125;&#125;
         <span class="tag">&lt;/<span class="title">li</span>&gt;</span>
     <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>

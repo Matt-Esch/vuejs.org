@@ -1,4 +1,4 @@
-describe('UNIT: ViewModel', function () {
+describe('ViewModel', function () {
 
     var nextTick = require('vue/src/utils').nextTick
 
@@ -9,17 +9,33 @@ describe('UNIT: ViewModel', function () {
             }
         },
         arr = [1, 2, 3],
+        parentVM = new Vue({
+            data: { fromParent: 'hello' }
+        }),
         vm = new Vue({
             el: '#vm-test',
+            parent: parentVM,
             data: {
                 a: data,
                 b: arr
             }
         })
 
+    describe('.$get()', function () {
+        it('should get correct value', function () {
+            var v = vm.$get('a.b.c')
+            assert.strictEqual(v, 12345)
+        })
+
+        it('should recursively get value from parents', function () {
+            var v = vm.$get('fromParent')
+            assert.strictEqual(v, 'hello')
+        })
+    })
+
     describe('.$set()', function () {
-        vm.$set('a.b.c', 54321)
         it('should set correct value', function () {
+            vm.$set('a.b.c', 54321)
             assert.strictEqual(data.b.c, 54321)
         })
     })
@@ -394,8 +410,7 @@ describe('UNIT: ViewModel', function () {
             expUnbindCalled = false,
             bindingUnbindCalled = false,
             unobserveCalled = false,
-            elRemoved = false,
-            delegatorsRemoved = false
+            elRemoved = false
 
         var dirMock = {
             binding: {
@@ -419,6 +434,7 @@ describe('UNIT: ViewModel', function () {
         }
 
         var compilerMock = {
+            el: document.createElement('div'),
             options: {
                 beforeDestroy: function () {
                     beforeDestroyCalled = true
@@ -450,7 +466,7 @@ describe('UNIT: ViewModel', function () {
                 }
             },
             dirs: [dirMock],
-            exps: [{
+            computed: [{
                 unbind: function () {
                     expUnbindCalled = true
                 }
@@ -459,12 +475,7 @@ describe('UNIT: ViewModel', function () {
             childId: 'test',
             children: [],
             parent: {
-                children: [],
-                vm: {
-                    $: {
-                        'test': true
-                    }
-                }
+                children: []
             },
             vm: {
                 $remove: function () {
@@ -473,18 +484,6 @@ describe('UNIT: ViewModel', function () {
             },
             execHook: function (id) {
                 this.options[id].call(this)
-            },
-            el: {
-                removeEventListener: function (event, handler) {
-                    assert.strictEqual(event, 'click')
-                    assert.strictEqual(handler, compilerMock.delegators.click.handler)
-                    delegatorsRemoved = true
-                }
-            },
-            delegators: {
-                click: {
-                    handler: function () {}
-                }
             }
         }
 
@@ -525,15 +524,10 @@ describe('UNIT: ViewModel', function () {
         it('should remove self from parent', function () {
             var parent = compilerMock.parent
             assert.ok(parent.children.indexOf(compilerMock), -1)
-            assert.strictEqual(parent.vm.$[compilerMock.childId], undefined)
         })
 
         it('should remove the dom element', function () {
             assert.ok(elRemoved)
-        })
-
-        it('should remove all event delegator listeners', function () {
-            assert.ok(delegatorsRemoved)
         })
 
     })

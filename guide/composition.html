@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Composing ViewModels - vue.js</title>
+        <title>Composing Components - vue.js</title>
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = "guide"
@@ -66,7 +66,7 @@
         
             <li><a href="/guide/transitions.html" class="sidebar-link">Adding Transition Effects</a></li>
         
-            <li><a href="/guide/composition.html" class="sidebar-link current">Composing ViewModels</a></li>
+            <li><a href="/guide/composition.html" class="sidebar-link current">Composing Components</a></li>
         
             <li><a href="/guide/application.html" class="sidebar-link">Building Larger Apps</a></li>
         
@@ -77,16 +77,20 @@
 </div>
 
 <div class="content guide with-sidebar">
-    <h1>Composing ViewModels</h1>
+    <h1>Composing Components</h1>
     <h2 id="registering-a-component">Registering a Component</h2>
-<p>Vue.js allows you to treat registered ViewModel constructors as reusable components. To register a component, use the global <code>Vue.component()</code> method:</p>
+<p>Vue.js allows you to treat registered ViewModel constructors as reusable components that is conceptually similar to <a href="http://www.w3.org/TR/components-intro/" target="_blank">Web Components</a>, without requiring any polyfills. To register a component, first create a subclass constructor of Vue using <code>Vue.extend()</code>, then use the global <code>Vue.component()</code> method to register that constructor:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
 4
-</pre></td><td class="code"><pre><span class="keyword">var</span> MyComponent = Vue.extend({
+5
+6
+</pre></td><td class="code"><pre><span class="comment">// Extend Vue to get a reusable constructor</span>
+<span class="keyword">var</span> MyComponent = Vue.extend({
     template: <span class="string">'A custom component!'</span>
 })
+<span class="comment">// Register the constructor with id: my-component</span>
 Vue.component(<span class="string">'my-component'</span>, MyComponent)
 </pre></td></tr></table></figure>
 
@@ -94,105 +98,33 @@ Vue.component(<span class="string">'my-component'</span>, MyComponent)
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre>Vue.component(<span class="string">'my-component'</span>, {
-    template: <span class="string">'A custom component!'</span>
-})
-</pre></td></tr></table></figure>
-
-<p>Then you can use it in a parent ViewModel&#39;s template:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<p>If you prefer, all registered components can also be used in the form of a custom element tag:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">my-component</span>&gt;</span><span class="tag">&lt;/<span class="title">my-component</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<h2 id="partials-and-123-yield-125-">Partials and {&#123;&gt;yield&#125;}</h2>
-<p>You can use partials in templates with {&#123;&gt;partial-id&#125;}, which inserts the partial registered via <code>Vue.partial(&#39;partial-id&#39;, &#39;...&#39;)</code>. But there is a special reserved partial ID: <code>yield</code>. Basically, the <code>yield</code> partial inside a template serves as a insertion point for the original, pre-compile content inside the element. This syntax allows components to be easily nested and composed while maintaining their custom markup. For example:</p>
-<p>Top level markup:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">p</span>&gt;</span>original content<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<p>Template for <code>my-component</code>:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"wrapper"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>This is my component!<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
-    {&#123;&gt; yield&#125;}
-<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<p>When the component element is compiled, its content will be replaced with the component&#39;s template, but the original content will be preserved and inserted into the <code>yield</code> position. If no <code>yield</code> outlet is found in the template, the original content will be wiped away.</p>
-<p class="tip">If needed, you can get access to the original content DocumentFragment in the component&#39;s <code>created</code> hook as a <code>this.$compiler.rawContent</code>.</p>
-
-<h2 id="encapsulating-private-assets">Encapsulating Private Assets</h2>
-<p>Sometimes a component needs to use assets such as directives, filters and its own child components, but might want to keep these assets encapsulated so the component itself can be reused elsewhere. You can do that using the private assets instantiation options. Private assets will only be accessible by the instances of the owner component and its child components.</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre>1
-2
-3
 4
 5
 6
 7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-</pre></td><td class="code"><pre><span class="comment">// All 5 types of assets</span>
-<span class="keyword">var</span> MyComponent = Vue.extend({
-    directives: {
-        <span class="comment">// id : definition pairs same with the global methods</span>
-        <span class="string">'private-directive'</span>: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-            <span class="comment">// ...</span>
-        }
-    },
-    filters: {
-        <span class="comment">// ...</span>
-    },
-    components: {
-        <span class="comment">// ...</span>
-    },
-    transitions: {
-        <span class="comment">// ...</span>
-    },
-    partials: {
-        <span class="comment">// ...</span>
-    }
+</pre></td><td class="code"><pre><span class="comment">// Implicitly call Vue.extend, then register the returned constructor.</span>
+<span class="comment">// Use this syntax when you don't need to programatically</span>
+<span class="comment">// instantiate your component.</span>
+<span class="comment">// Note: this method returns Vue, not the registered constructor.</span>
+Vue.component(<span class="string">'my-component'</span>, {
+    template: <span class="string">'A custom component!'</span>
 })
 </pre></td></tr></table></figure>
 
-<p>Alternatively, you can add private assets to an existing Component constructor using a chaining API similar to the global asset registeration methods:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>MyComponent
-    .directive(<span class="string">'...'</span>, {})
-    .filter(<span class="string">'...'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>})
-    .component(<span class="string">'...'</span>, {})
-    <span class="comment">// ...</span>
+<p>Then you can use it in a parent ViewModel&#39;s template (make sure the component is registered <strong>before</strong> you instantiate your top-level ViewModel):</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
 
+<p>If you prefer, components can also be used in the form of a custom element tag:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">my-component</span>&gt;</span><span class="tag">&lt;/<span class="title">my-component</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p class="tip">To avoid naming collisions with native elements and stay consistent with the W3C Custom Elements specification, the component&#39;s ID <strong>must</strong> contain a hyphen <code>-</code> to be usable as a custom tag.</p>
+
+<p>It is important to understand the difference between <code>Vue.extend()</code> and <code>Vue.component()</code>. Since <code>Vue</code> itself is a constructor, <code>Vue.extend()</code> is a <strong>class inheritance method</strong>. Its task is to create a sub-class of <code>Vue</code> and return the constructor. <code>Vue.component()</code>, on the other hand, is an <strong>asset registration method</strong> similar to <code>Vue.directive()</code> and <code>Vue.filter()</code>. Its task is to associate a given constructor with a string ID so Vue.js can pick it up in templates. When directly passing in options to <code>Vue.component()</code>, it calls <code>Vue.extend()</code> under the hood.</p>
+<p>Vue.js supports two different API paradigms: the class-based, imperative, Backbone style API, and the markup-based, declarative, Web Components style API. If you are confused, think about how you can create an image element with <code>new Image()</code>, or with an <code>&lt;img&gt;</code> tag. Both are useful in its own right and Vue.js tries to provide both for maximum flexibility.</p>
 <h2 id="data-inheritance">Data Inheritance</h2>
 <h3 id="inheriting-objects-from-parent-as-data-">Inheriting Objects from Parent as <code>$data</code></h3>
 <p>A child component can inherit data from its parent&#39;s data by combining <code>v-component</code> with <code>v-with</code>. When given a single keypath without an argument, the child Component will use that value as its <code>$data</code> (hence that value must be an Object):</p>
@@ -253,7 +185,7 @@ Vue.component(<span class="string">'user-profile'</span>, {
     })
 </script>
 
-<h3 id="inheriting-properties-from-parent">Inheriting Properties from Parent</h3>
+<h3 id="inheriting-individual-properties-with-v-with-">Inheriting Individual Properties with <code>v-with</code></h3>
 <p>When <code>v-with</code> is given an argument, it will create a property on the child Component&#39;s <code>$data</code> using the argument as the key. That property will be kept in sync with the bound value on the parent:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
@@ -309,9 +241,7 @@ new Vue({
 })
 </script>
 
-<p class="tip">Using <code>v-with</code> alone will also create a child ViewModel instance using the default <code>Vue</code> constructor.</p>
-
-<h3 id="inheriting-array-elements-with-v-repeat-">Inheriting Array Elements with <code>v-repeat</code></h3>
+<h3 id="using-v-component-with-v-repeat-">Using <code>v-component</code> with <code>v-repeat</code></h3>
 <p>For an Array of Objects, you can combine <code>v-component</code> with <code>v-repeat</code>. In this case, for each Object in the Array, a child ViewModel will be created using that Object as data, and the specified component as the constructor.</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
@@ -455,6 +385,137 @@ var parent = new Vue({
 })
 </script>
 
+<h2 id="encapsulating-private-assets">Encapsulating Private Assets</h2>
+<p>Sometimes a component needs to use assets such as directives, filters and its own child components, but might want to keep these assets encapsulated so the component itself can be reused elsewhere. You can do that using the private assets instantiation options. Private assets will only be accessible by the instances of the owner component and its child components.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="code"><pre><span class="comment">// All 5 types of assets</span>
+<span class="keyword">var</span> MyComponent = Vue.extend({
+    directives: {
+        <span class="comment">// id : definition pairs same with the global methods</span>
+        <span class="string">'private-directive'</span>: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+            <span class="comment">// ...</span>
+        }
+    },
+    filters: {
+        <span class="comment">// ...</span>
+    },
+    components: {
+        <span class="comment">// ...</span>
+    },
+    partials: {
+        <span class="comment">// ...</span>
+    },
+    effects: {
+        <span class="comment">// ...</span>
+    }
+})
+</pre></td></tr></table></figure>
+
+<p>Alternatively, you can add private assets to an existing Component constructor using a chaining API similar to the global asset registeration methods:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>MyComponent
+    .directive(<span class="string">'...'</span>, {})
+    .filter(<span class="string">'...'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>})
+    .component(<span class="string">'...'</span>, {})
+    <span class="comment">// ...</span>
+</pre></td></tr></table></figure>
+
+<h2 id="content-insertion-points">Content Insertion Points</h2>
+<h3 id="single-insertion-point">Single insertion point</h3>
+<p>When creating reusable components, we often need to access and reuse the original content in the hosting element, which are not part of the component. Vue.js implements a content insertion mechanism that is compatible with the current Web Components spec draft, using the special <code>&lt;content&gt;</code> element to serve as insertion points for the original content. When there is only one <code>&lt;content&gt;</code> tag with no attributes, the entire original content will be inserted at its position in the DOM and replaces it. Anything originally inside the <code>&lt;content&gt;</code> tags are considered <strong>fallback content</strong>. Fallback content will only be displayed if the hosting element is empty and has no content to be inserted. For example:</p>
+<p>Template for <code>my-component</code>:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">h1</span>&gt;</span>This is my component!<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+<span class="tag">&lt;<span class="title">content</span>&gt;</span>This will only be displayed if no content is inserted<span class="tag">&lt;/<span class="title">content</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>Parent markup that uses the component:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"my-component"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>This is some original content<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>This is some more original content<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>The rendered result will be:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>This is my component!<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>This is some original content<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>This is some more original content<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<h3 id="multiple-insertion-points-and-the-select-attribute">Multiple insertion points and the <code>select</code> attribute</h3>
+<p><code>&lt;content&gt;</code> elements have a special attribute, <code>select</code>, which expects a CSS selector. You can have multiple <code>&lt;content&gt;</code> insertion points with different <code>select</code> attributes, and each of them will be replaced by the elements matching that selector from the original content.</p>
+<p>Template for <code>multi-insertion-component</code>:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">content</span> <span class="attribute">select</span>=<span class="value">"p:nth-child(3)"</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span>
+<span class="tag">&lt;<span class="title">content</span> <span class="attribute">select</span>=<span class="value">"p:nth-child(2)"</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span>
+<span class="tag">&lt;<span class="title">content</span> <span class="attribute">select</span>=<span class="value">"p:nth-child(1)"</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>Parent markup:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">v-component</span>=<span class="value">"multi-insertion-component"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>One<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Two<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Three<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>The rendered result will be:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Three<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Two<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>One<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>The content insertion mechanism provides fine control over how original content should be manipulated or displayed, making components extremely flexible and composable.</p>
 <p>Next: <a href="/guide/application.html">Building Larger Apps</a>.</p>
 
 </div>

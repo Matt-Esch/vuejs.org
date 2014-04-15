@@ -1,4 +1,4 @@
-describe('UNIT: Utils', function () {
+describe('Utils', function () {
 
     var utils = require('vue/src/utils'),
         config = require('vue/src/config')
@@ -9,6 +9,36 @@ describe('UNIT: Utils', function () {
         // testing require fail
         // for code coverage
     }
+
+    describe('get', function () {
+        
+        it('should get value', function () {
+            var obj = { a: { b: { c: 123 }}}
+            assert.strictEqual(utils.get(obj, 'a.b.c'), 123)
+        })
+
+        it('should return undefined if path does not exist', function () {
+            var obj = { a: {}}
+            assert.strictEqual(utils.get(obj, 'a.b.c'), undefined)
+        })
+
+    })
+
+    describe('set', function () {
+        
+        it('should set value', function () {
+            var obj = { a: { b: { c: 0 }}}
+            utils.set(obj, 'a.b.c', 123)
+            assert.strictEqual(obj.a.b.c, 123)
+        })
+
+        it('should set even if path does not exist', function () {
+            var obj = {}
+            utils.set(obj, 'a.b.c', 123)
+            assert.strictEqual(obj.a.b.c, 123)
+        })
+
+    })
     
     describe('hash', function () {
 
@@ -82,41 +112,45 @@ describe('UNIT: Utils', function () {
 
     })
 
-    describe('typeOf', function () {
+    describe('isObject', function () {
         
-        it('should return correct type', function () {
-            var tof = utils.typeOf
-            assert.equal(tof({}), 'Object')
-            assert.equal(tof([]), 'Array')
-            assert.equal(tof(1), 'Number')
-            assert.equal(tof(''), 'String')
-            assert.equal(tof(true), 'Boolean')
-            // phantomjs weirdness
-            assert.ok(tof(null) === 'Null' || tof(null) === 'DOMWindow')
-            assert.ok(tof(undefined) === 'Undefined' || tof(undefined) === 'DOMWindow')
+        it('should return correct result', function () {
+            var iso = utils.isObject
+            assert.ok(iso({}))
+            assert.notOk(iso([]))
+            assert.notOk(iso(1))
+            assert.notOk(iso(true))
+            assert.notOk(iso(null))
+            assert.notOk(iso(undefined))
         })
 
     })
 
-    describe('toText', function () {
-
-        var txt = utils.toText
-
-        it('should do nothing for strings, numbers and booleans', function () {
-            assert.strictEqual(txt('hihi'), 'hihi')
-            assert.strictEqual(txt(123), 123)
-            assert.strictEqual(txt(true), true)
-            assert.strictEqual(txt(false), false)
-        })
+    describe('isTrueObject', function () {
         
-        it('should output empty string if value is not string or number', function () {
-            assert.strictEqual(txt(undefined), '')
-            assert.strictEqual(txt(null), '')
-            assert.strictEqual(txt(NaN), '')
+        it('should return correct result', function () {
+            var iso = utils.isTrueObject
+            assert.ok(iso({}))
+            assert.notOk(iso([]))
+            assert.notOk(iso(1))
+            assert.notOk(iso(true))
+            assert.notOk(iso(null))
+            assert.notOk(iso(undefined))
+            assert.notOk(iso(document.createElement('div')))
         })
 
-        it('should stringify value if is object', function () {
-            assert.strictEqual(txt({foo:"bar"}), '{"foo":"bar"}')
+    })
+
+    describe('guard', function () {
+        
+        it('should output empty string if value is null or undefined', function () {
+            assert.strictEqual(utils.guard(undefined), '')
+            assert.strictEqual(utils.guard(null), '')
+        })
+
+        it('should output stringified data if value is object', function () {
+            assert.strictEqual(utils.guard({a:1}), '{"a":1}')
+            assert.strictEqual(utils.guard([1,2,3]), '[1,2,3]')
         })
 
     })
@@ -127,13 +161,6 @@ describe('UNIT: Utils', function () {
             var a = {a: 1}, b = {a: {}, b: 2}
             utils.extend(a, b)
             assert.strictEqual(a.a, b.a)
-            assert.strictEqual(a.b, b.b)
-        })
-
-        it('should respect the protective option', function () {
-            var a = {a: 1}, b = {a: {}, b: 2}
-            utils.extend(a, b, true)
-            assert.strictEqual(a.a, 1)
             assert.strictEqual(a.b, b.b)
         })
 
@@ -250,9 +277,9 @@ describe('UNIT: Utils', function () {
         it('should convert plain object components & elements to constructors', function () {
             var components = options.components
             assert.ok(components.a.prototype instanceof Vue)
-            assert.strictEqual(components.a.options.data.data, 1)
+            assert.strictEqual(components.a.options.defaultData.data, 1)
             assert.ok(components.b.prototype instanceof Vue)
-            assert.strictEqual(components.b.options.data.data, 2)
+            assert.strictEqual(components.b.options.defaultData.data, 2)
         })
 
     })
@@ -356,6 +383,14 @@ describe('UNIT: Utils', function () {
             assert.strictEqual(el.className, 'hihi')
         })
 
+    })
+
+    describe('checkNumber', function () {
+        // TODO
+    })
+
+    describe('objectToArray', function () {
+        // TODO
     })
 
 })

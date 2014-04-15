@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Vue.js - Intuitive, Fast and Composable MVVM for building interactive interfaces.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Lato|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="icon" href="/images/logo.png" type="image/x-icon">
         <script>
             window.PAGE_TYPE = "api"
@@ -86,7 +86,7 @@
 <p>Set the element&#39;s display to <code>none</code> or its original value, depending on the truthy-ness of the binding&#39;s value.</p>
 <h3 id="v-class">v-class</h3>
 <ul>
-<li>This directive takes an optional argument.</li>
+<li>This directive accepts an optional argument.</li>
 </ul>
 <p>If no argument is provided, it will add the binding&#39;s value to the element&#39;s classList, and update the class as the value changes.</p>
 <p>If a directive argument is provided, the argument will be the class to be toggled depending on the binding value&#39;s truthy-ness. Combined with multiple clauses this can be pretty useful:</p>
@@ -104,7 +104,7 @@
 
 <h3 id="v-attr">v-attr</h3>
 <ul>
-<li>This directive requires exactly one argument.</li>
+<li>This directive requires an argument.</li>
 </ul>
 <p>Updates the element&#39;s given attribute (indicated by the argument).</p>
 <p><strong>Example:</strong></p>
@@ -117,7 +117,7 @@
 
 <h3 id="v-style">v-style</h3>
 <ul>
-<li>This directive requires one optional argument.</li>
+<li>This directive accepts an optional argument.</li>
 </ul>
 <p>Apply inline CSS styles to the element.</p>
 <p>When there is no argument, Vue.js will use the value to set <code>el.style.cssText</code>.</p>
@@ -142,15 +142,9 @@
 
 <p class="tip">It is recommended to use <code>v-style</code> instead of mustache bindings inside <code>style</code> attribute because Internet Explorer, regardless of version, will remove invalid inline styles when parsing the HTML.</p>
 
-<h3 id="v-repeat">v-repeat</h3>
-<ul>
-<li>This directive requires the value to be Array or falsy.</li>
-<li>This directive can trigger transitions.</li>
-</ul>
-<p>Create a child ViewModel for every item in the binding Array. These child ViewModels will be automatically created / destroyed when mutating methods, e.g. <code>push()</code>, are called on the Array. For more details see <a href="/guide/list.html">Displaying a List</a>.</p>
 <h3 id="v-on">v-on</h3>
 <ul>
-<li>This directive requires exactly one argument.</li>
+<li>This directive requires an argument.</li>
 <li>This directive requires the value to be a Function or an expression.</li>
 </ul>
 <p>Attaches an event listener to the element. The event type is denoted by the argument. It is also the only directive that can be used with the <code>key</code> filter. For more details see <a href="/guide/events.html">Listening for Events</a>.</p>
@@ -161,14 +155,58 @@
 <p>Create a two-way binding on a form or editable element. Data is synced on every <code>input</code> event by default. When the ViewModel has the <code>lazy</code> option set to true, data will be synced only on <code>change</code> events. For more details see <a href="/guide/forms.html">Handling Forms</a>.</p>
 <h3 id="v-if">v-if</h3>
 <ul>
+<li>This directive creates child ViewModels.</li>
 <li>This directive can trigger transitions.</li>
 </ul>
-<p>Conditionally insert / remove the element based on the truthy-ness of the binding value.</p>
+<p>Conditionally insert / remove the element based on the truthy-ness of the binding value. A child ViewModel will be created on the bound element. It is instantiated when the value is truthy, and destroyed when the value becomes falsy. If the binding starts with a falsy value, the ViewModel will not be instantiated until the value actually becomes truthy.</p>
+<h3 id="v-repeat">v-repeat</h3>
+<ul>
+<li>This directive creates child ViewModels.</li>
+<li>This directive requires the value to be an Array.</li>
+<li>This directive can trigger transitions.</li>
+<li>This directive accepts an optional argument.</li>
+</ul>
+<p>Create a child ViewModel for every item in the binding Array. These child ViewModels will be automatically created / destroyed when mutating methods, e.g. <code>push()</code>, are called on the Array.</p>
+<p>When no argument is provided, the child ViewModel will directly use the assigned element in the Array as its <code>$data</code>. If the value is not an object, a wrapper data object will be created and the value will be set on that object using the alias key <code>$value</code>.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">v-repeat</span>=<span class="value">"users"</span>&gt;</span>
+        {&#123;name&#125;} {&#123;email&#125;}
+    <span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>If an argument is provided, a wrapper data object will always be created, using the argument string as the alias key. This allows for more explicit property access in templates:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">v-repeat</span>=<span class="value">"user : users"</span>&gt;</span>
+        {&#123;user.name&#125;} {&#123;user.email&#125;}
+    <span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>For detailed examples, see <a href="/guide/list.html">Displaying a List</a>.</p>
+<h3 id="v-view">v-view</h3>
+<ul>
+<li>This directive creates child ViewModels.</li>
+<li>This directive can trigger transitions.</li>
+</ul>
+<p>Conditionally instantiate ViewModels, using the bound value as the Component ID to look up constructors with. When the bound value changes, existing ViewModel will be destroyed and a new ViewModel will be created. When a ViewModel is created, the original element will be replaced, but all attributes will be copied to the new element. For more details, see <a href="/guide/application.html#routing">Routing</a>.</p>
 <h3 id="v-with">v-with</h3>
 <ul>
+<li>This directive must be used with another directive that creates child ViewModels.</li>
 <li>This directive accepts only keypaths, no expressions.</li>
 </ul>
-<p>Compile this element as a child ViewModel, inheriting data from the parent. You can either pass in an Object which will be used as the <code>data</code> option, or bind individual parent properties to the child with different keys. This directive can be used in combination with <code>v-component</code>.</p>
+<p>Allows a child ViewModel to inherit data from the parents. You can either pass in an Object which will be used as the <code>data</code> option, or bind individual parent properties to the child with different keys. This directive must be used in combination with another directive that creates a child ViewModel, e.g. <code>v-component</code> or <code>v-view</code>.</p>
 <p>Example inheriting an object:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre>1
 2
@@ -209,14 +247,14 @@
 
 <h2 id="literal-directives">Literal Directives</h2>
 <blockquote>
-<p>Literal directives treat their attribute value as a plain string; they do not attempt to bind themselves to anything. All they do is executing the <code>bind()</code> function with the string value once.</p>
+<p>Literal directives treat their attribute value as a plain string; they do not attempt to bind themselves to anything. All they do is executing the <code>bind()</code> function with the string value once. Literal directives accept mustache expressions inside their value, but these expressions will be evaludated only once on first compile and do not react to data changes.</p>
 </blockquote>
 <h3 id="v-component">v-component</h3>
 <p>Compile this element as a child ViewModel with a registered component constructor. This can be used with <code>v-with</code> to inehrit data from the parent. For more details see <a href="/guide/composition.html">Composing ViewModels</a>.</p>
 <h3 id="v-ref">v-ref</h3>
 <p>Only respected when used in combination with <code>v-component</code>, <code>v-with</code> or <code>v-repeat</code>. The ViewModel will be accessible in its parent&#39;s <code>$</code> object, e.g. <code>parent.$[id]</code>. When used with <code>v-repeat</code>, the value will be an Array containing the child ViewModel instances corresponding to the Array they are bound to. For examples see <a href="/guide/composition.html#accessing-child-components">Accessing Child Components</a>.</p>
 <h3 id="v-partial">v-partial</h3>
-<p>Replace the element&#39;s innerHTML with a registered partial. Partials can be registered with <code>Vue.partial()</code> or passed inside the <code>partials</code> option. You can also use this syntax:</p>
+<p>Replace the element&#39;s innerHTML with a registered partial. Partials can be registered with <code>Vue.partial()</code> or passed inside the <code>partials</code> option. You can also use this syntax (which doesn&#39;t support expressions):</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span>&gt;</span>&#123;&#123;&gt; my-partial&#125;&#125;<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </pre></td></tr></table></figure>
